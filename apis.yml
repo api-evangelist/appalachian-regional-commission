@@ -44,6 +44,8 @@ apis:
       - type: Portal
         url: https://data.arc.gov/data
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/appalachian-regional-commission
   - type: Documentation
     url: https://www.arc.gov/research-and-data/
   - type: Portal
