@@ -44,6 +44,10 @@ apis:
       - type: Portal
         url: https://data.arc.gov/data
 common:
+  - type: DomainSecurity
+    url: security/appalachian-regional-commission-domain-security.yml
+  - url: https://www.arc.gov/feed/
+    type: Blog
   - type: LinkedIn
     url: https://www.linkedin.com/company/appalachian-regional-commission
   - type: Documentation
