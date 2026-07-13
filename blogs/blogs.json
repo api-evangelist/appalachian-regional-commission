@@ -1,0 +1,14 @@
+{
+  "repo": "appalachian-regional-commission",
+  "feeds": [
+    {
+      "source": "https://www.arc.gov/feed/",
+      "feed_url": "https://www.arc.gov/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    }
+  ],
+  "fetched": "2026-07-11T11:50:51Z",
+  "post_count": 11
+}
