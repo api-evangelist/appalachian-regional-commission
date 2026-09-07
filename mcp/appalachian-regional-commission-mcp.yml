@@ -1,0 +1,99 @@
+specification: API Commons MCP
+specificationVersion: '0.1'
+provider: Appalachian Regional Commission
+providerId: appalachian-regional-commission
+generated: '2026-09-07'
+method: derived
+status: candidate
+source: >-
+  Derived from the OpenAPI documents in openapi/, which were themselves derived from ARC's live
+  WordPress route index and ArcGIS services directory on 2026-09-07. No ARC MCP server was found.
+description: >-
+  The Appalachian Regional Commission ships no MCP server, hosted or local. This file is a CANDIDATE
+  tool list showing what one would expose if ARC (or anyone) wrapped the two surfaces ARC already
+  publishes — every tool below binds to a real, anonymous, verified operation. Nothing here is
+  callable as MCP today.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: none
+  verified: derived
+  note: >-
+    Searched for a hosted endpoint and a distributable package on 2026-09-07: no /mcp or /sse path
+    on any ARC host, no /.well-known/ai-plugin.json (404 on www.arc.gov and arc.gov, 302 on
+    data.arc.gov), no llms.txt, no ARC GitHub organization and no MCP package in npm or PyPI. The
+    underlying APIs need no auth, so a wrapper would need none either.
+search_evidence:
+  - url: https://www.arc.gov/.well-known/ai-plugin.json
+    status: 404
+  - url: https://www.arc.gov/llms.txt
+    status: 404
+  - url: https://api.github.com/orgs/appalachian-regional-commission
+    status: 404
+candidate_tools:
+  - name: search_arc
+    description: Search everything ARC publishes on arc.gov — reports, maps, resources, events, staff, pages and news — in one call.
+    rest: [getSearch]
+    surface: ARC WordPress REST API
+    inputs_from: parameters of GET /wp/v2/search
+  - name: list_arc_reports
+    description: List ARC research reports, evaluations, fact sheets and infographics, filterable by topic, fiscal year and state or county.
+    rest: [getReport]
+    surface: ARC WordPress REST API
+  - name: get_arc_report
+    description: Fetch one ARC report record by id, including its media links and taxonomy assignments.
+    rest: [getReportByid]
+    surface: ARC WordPress REST API
+  - name: list_arc_maps
+    description: List ARC map records covering economic status, poverty, income, population change, county types and congressional districts.
+    rest: [getMap]
+    surface: ARC WordPress REST API
+  - name: list_local_development_districts
+    description: List the 74 Local Development Districts that deliver ARC investment across the region.
+    rest: [getLdd]
+    surface: ARC WordPress REST API
+  - name: list_investment_priorities
+    description: List ARC's investment priorities, the framing for every grant program.
+    rest: [getInvestmentPriority]
+    surface: ARC WordPress REST API
+  - name: list_arc_events
+    description: List ARC events, convenings, webinars and application deadlines.
+    rest: [getEvent]
+    surface: ARC WordPress REST API
+  - name: list_investments_in_action
+    description: List Investments in Action — funded ARC projects profiled as success stories.
+    rest: [getSuccessStory]
+    surface: ARC WordPress REST API
+  - name: list_arc_news
+    description: List ARC newsroom posts and press releases.
+    rest: [getPosts]
+    surface: ARC WordPress REST API
+  - name: list_arc_geospatial_services
+    description: List the 108 public ARC hosted feature services — county boundaries, districts, and the economic and ACS statistical series.
+    rest: [listFeatureServices]
+    surface: ARC Geospatial API
+  - name: describe_arc_layer
+    description: Read the attribute schema of one ARC feature layer before querying it.
+    rest: [getFeatureLayer]
+    surface: ARC Geospatial API
+  - name: query_arc_counties
+    description: >-
+      Query ARC county data by SQL where clause or geometry and return GeoJSON — the operation that
+      answers questions like the economic status, poverty rate or median household income of a
+      given Appalachian county.
+    rest: [queryFeatureLayer]
+    surface: ARC Geospatial API
+notes:
+  - >-
+    Every candidate tool inherits its input schema from the bound OpenAPI operation's parameters. No
+    tool is invented: each maps one-to-one onto an operation confirmed to answer 200 anonymously on
+    2026-09-07.
+  - >-
+    No tool crosswalk file is written, because a crosswalk records the binding between a real MCP
+    server's advertised tools and the REST operations behind them. ARC has no MCP server, so there
+    is nothing to cross-walk — this candidate list is the whole finding.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

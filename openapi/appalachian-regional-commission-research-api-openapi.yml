@@ -1,0 +1,1320 @@
+# method: derived
+# x-source-url: https://www.arc.gov/wp-json/
+# generated: '2026-09-07'
+# Derived by the API Evangelist enrichment pipeline from the provider's own live
+# discovery document. The Appalachian Regional Commission publishes no OpenAPI.
+openapi: 3.1.0
+info:
+  title: ARC Research and Data API (WordPress REST wp/v2)
+  version: wp/v2
+  summary: Anonymous read access to ARC research reports and evaluations, regional maps, and applicant/grantee resources.
+  description: 'The research surface of www.arc.gov as custom post types on the `wp/v2` namespace: 304 research
+    reports, evaluations, chartbook chapters and fact sheets; 161 map records covering economic status, poverty,
+    median household income, population change, congressional districts and rural-urban county types; and 71 applicant
+    and grantee resources. These records carry the metadata and file links for the PDFs and interactive maps ARC
+    publishes at /research-and-data/ — the underlying geospatial data itself is served separately from ARC''s ArcGIS
+    Online organization (see the ARC Geospatial API in this same record). Record counts observed live 2026-09-07.
+
+
+    The `wp/v2` namespace at https://www.arc.gov/wp-json/ is readable anonymously — no key, no OAuth, no registration.
+    Write methods are advertised on these same routes but reject anonymous callers (WordPress authenticates writes
+    with Application Passwords over HTTP Basic), so only the GET surface is documented here.
+
+
+    This document was DERIVED mechanically by API Evangelist from the route-discovery document served at https://www.arc.gov/wp-json/
+    on 2026-09-07 — every path, method and query parameter below is taken verbatim from that descriptor, and each
+    collection route was called live to confirm it answers 200 anonymously. The Appalachian Regional Commission
+    does not publish an OpenAPI definition of its own; this is the content API its CMS exposes, not a product API.'
+  contact:
+    name: Appalachian Regional Commission
+    url: https://www.arc.gov/contact-arc/
+  license:
+    name: U.S. Government Work
+    url: https://www.arc.gov/arc-web-and-privacy-policy/
+  x-derived-by: API Evangelist enrichment pipeline
+  x-derived-from: https://www.arc.gov/wp-json/
+  x-derived-on: '2026-09-07'
+  x-provider-published: false
+servers:
+- url: https://www.arc.gov/wp-json
+  description: Production (arc.gov WordPress REST API)
+tags:
+- name: Research
+paths:
+  /wp/v2/report:
+    get:
+      operationId: getReport
+      summary: GET /wp/v2/report
+      description: List ARC research reports, evaluations, fact sheets and infographics. 304 records live on 2026-09-07.
+      tags:
+      - Research
+      parameters:
+      - name: after
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Limit response to posts published after a given ISO8601 compliant date.
+      - name: before
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Limit response to posts published before a given ISO8601 compliant date.
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      - name: exclude
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+        description: Ensure result set excludes specific IDs.
+      - name: fact_sheets_infographics_topic
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the fact_sheets_infographics_topic
+          taxonomy.
+      - name: fact_sheets_infographics_topic_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the fact_sheets_infographics_topic
+          taxonomy.
+      - name: fact_sheets_infographics_type
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the fact_sheets_infographics_type
+          taxonomy.
+      - name: fact_sheets_infographics_type_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the fact_sheets_infographics_type
+          taxonomy.
+      - name: global_type
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the global_type taxonomy.
+      - name: global_type_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the global_type taxonomy.
+      - name: include
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+        description: Limit result set to specific IDs.
+      - name: investment_priority_topic
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the investment_priority_topic taxonomy.
+      - name: investment_priority_topic_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the investment_priority_topic
+          taxonomy.
+      - name: modified_after
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Limit response to posts modified after a given ISO8601 compliant date.
+      - name: modified_before
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Limit response to posts modified before a given ISO8601 compliant date.
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Offset the result set by a specific number of items.
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+        description: Order sort attribute ascending or descending.
+      - name: orderby
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - author
+          - date
+          - id
+          - include
+          - modified
+          - parent
+          - relevance
+          - slug
+          - include_slugs
+          - title
+          default: date
+        description: Sort collection by post attribute.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+        description: Current page of the collection.
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 10
+          minimum: 1
+          maximum: 100
+        description: Maximum number of items to be returned in result set.
+      - name: research_eval_maps_data_type
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the research_eval_maps_data_type
+          taxonomy.
+      - name: research_eval_maps_data_type_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the research_eval_maps_data_type
+          taxonomy.
+      - name: research_report_eval_topic
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the research_report_eval_topic taxonomy.
+      - name: research_report_eval_topic_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the research_report_eval_topic
+          taxonomy.
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limit results to those matching a string.
+      - name: search_columns
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - post_title
+            - post_content
+            - post_excerpt
+          default: []
+        description: Array of column names to be searched.
+      - name: search_semantics
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - exact
+        description: How to interpret the search input.
+      - name: slug
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        description: Limit result set to posts with one or more specific slugs.
+      - name: states_counties
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the states_counties taxonomy.
+      - name: states_counties_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the states_counties
+          taxonomy.
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - publish
+            - future
+            - draft
+            - pending
+            - private
+            - trash
+            - auto-draft
+            - inherit
+            - request-pending
+            - request-confirmed
+            - request-failed
+            - request-completed
+            - acf-disabled
+            - dp-rewrite-republish
+            - draft-revision
+            - pending-revision
+            - future-revision
+            - any
+          default: publish
+        description: Limit result set to posts assigned one or more statuses.
+      - name: tax_relation
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - AND
+          - OR
+        description: Limit result set based on relationship between multiple taxonomies.
+      - name: tax_year
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the tax_year taxonomy.
+      - name: tax_year_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the tax_year taxonomy.
+      responses:
+        '200':
+          description: Success. JSON body; collection routes also return `X-WP-Total` and `X-WP-TotalPages` headers.
+          headers:
+            X-WP-Total:
+              description: Total number of records matching the query.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available at the current `per_page`.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Bad request — an invalid parameter was supplied. Body is the WordPress REST error envelope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '401':
+          description: Unauthorized — the route requires an authenticated WordPress user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '403':
+          description: Forbidden — the capability is disabled for anonymous callers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '404':
+          description: Not found — no resource exists with the supplied identifier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+  /wp/v2/report/{id}:
+    get:
+      operationId: getReportByid
+      summary: GET /wp/v2/report/{id}
+      description: Read `/wp/v2/report/{id}` from the WordPress REST API at https://www.arc.gov/wp-json.
+      tags:
+      - Research
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: Unique identifier for the post.
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      - name: excerpt_length
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Override the default excerpt length.
+      - name: password
+        in: query
+        required: false
+        schema:
+          type: string
+        description: The password for the post if it is password protected.
+      responses:
+        '200':
+          description: Success. JSON body; collection routes also return `X-WP-Total` and `X-WP-TotalPages` headers.
+          headers:
+            X-WP-Total:
+              description: Total number of records matching the query.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available at the current `per_page`.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Bad request — an invalid parameter was supplied. Body is the WordPress REST error envelope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '401':
+          description: Unauthorized — the route requires an authenticated WordPress user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '403':
+          description: Forbidden — the capability is disabled for anonymous callers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '404':
+          description: Not found — no resource exists with the supplied identifier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+  /wp/v2/map:
+    get:
+      operationId: getMap
+      summary: GET /wp/v2/map
+      description: List ARC map records — regional maps of economic status, poverty, income, population and county
+        types. 161 records live on 2026-09-07.
+      tags:
+      - Research
+      parameters:
+      - name: after
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Limit response to posts published after a given ISO8601 compliant date.
+      - name: before
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Limit response to posts published before a given ISO8601 compliant date.
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      - name: exclude
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+        description: Ensure result set excludes specific IDs.
+      - name: global_type
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the global_type taxonomy.
+      - name: global_type_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the global_type taxonomy.
+      - name: include
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+        description: Limit result set to specific IDs.
+      - name: map_topic
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the map_topic taxonomy.
+      - name: map_topic_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the map_topic taxonomy.
+      - name: modified_after
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Limit response to posts modified after a given ISO8601 compliant date.
+      - name: modified_before
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Limit response to posts modified before a given ISO8601 compliant date.
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Offset the result set by a specific number of items.
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+        description: Order sort attribute ascending or descending.
+      - name: orderby
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - author
+          - date
+          - id
+          - include
+          - modified
+          - parent
+          - relevance
+          - slug
+          - include_slugs
+          - title
+          default: date
+        description: Sort collection by post attribute.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+        description: Current page of the collection.
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 10
+          minimum: 1
+          maximum: 100
+        description: Maximum number of items to be returned in result set.
+      - name: research_eval_maps_data_type
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the research_eval_maps_data_type
+          taxonomy.
+      - name: research_eval_maps_data_type_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the research_eval_maps_data_type
+          taxonomy.
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limit results to those matching a string.
+      - name: search_columns
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - post_title
+            - post_content
+            - post_excerpt
+          default: []
+        description: Array of column names to be searched.
+      - name: search_semantics
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - exact
+        description: How to interpret the search input.
+      - name: slug
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        description: Limit result set to posts with one or more specific slugs.
+      - name: states_counties
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the states_counties taxonomy.
+      - name: states_counties_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the states_counties
+          taxonomy.
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - publish
+            - future
+            - draft
+            - pending
+            - private
+            - trash
+            - auto-draft
+            - inherit
+            - request-pending
+            - request-confirmed
+            - request-failed
+            - request-completed
+            - acf-disabled
+            - dp-rewrite-republish
+            - draft-revision
+            - pending-revision
+            - future-revision
+            - any
+          default: publish
+        description: Limit result set to posts assigned one or more statuses.
+      - name: tax_relation
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - AND
+          - OR
+        description: Limit result set based on relationship between multiple taxonomies.
+      - name: tax_year
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the tax_year taxonomy.
+      - name: tax_year_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the tax_year taxonomy.
+      responses:
+        '200':
+          description: Success. JSON body; collection routes also return `X-WP-Total` and `X-WP-TotalPages` headers.
+          headers:
+            X-WP-Total:
+              description: Total number of records matching the query.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available at the current `per_page`.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Bad request — an invalid parameter was supplied. Body is the WordPress REST error envelope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '401':
+          description: Unauthorized — the route requires an authenticated WordPress user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '403':
+          description: Forbidden — the capability is disabled for anonymous callers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '404':
+          description: Not found — no resource exists with the supplied identifier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+  /wp/v2/map/{id}:
+    get:
+      operationId: getMapByid
+      summary: GET /wp/v2/map/{id}
+      description: Read `/wp/v2/map/{id}` from the WordPress REST API at https://www.arc.gov/wp-json.
+      tags:
+      - Research
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: Unique identifier for the post.
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      - name: excerpt_length
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Override the default excerpt length.
+      - name: password
+        in: query
+        required: false
+        schema:
+          type: string
+        description: The password for the post if it is password protected.
+      responses:
+        '200':
+          description: Success. JSON body; collection routes also return `X-WP-Total` and `X-WP-TotalPages` headers.
+          headers:
+            X-WP-Total:
+              description: Total number of records matching the query.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available at the current `per_page`.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Bad request — an invalid parameter was supplied. Body is the WordPress REST error envelope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '401':
+          description: Unauthorized — the route requires an authenticated WordPress user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '403':
+          description: Forbidden — the capability is disabled for anonymous callers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '404':
+          description: Not found — no resource exists with the supplied identifier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+  /wp/v2/resource:
+    get:
+      operationId: getResource
+      summary: GET /wp/v2/resource
+      description: List ARC applicant and grantee resources (guides, forms, compliance material). 71 records live
+        on 2026-09-07.
+      tags:
+      - Research
+      parameters:
+      - name: after
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Limit response to posts published after a given ISO8601 compliant date.
+      - name: applicant_resources_funding_op
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the applicant_resources_funding_op
+          taxonomy.
+      - name: applicant_resources_funding_op_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the applicant_resources_funding_op
+          taxonomy.
+      - name: applicant_resources_project_type
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the applicant_resources_project_type
+          taxonomy.
+      - name: applicant_resources_project_type_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the applicant_resources_project_type
+          taxonomy.
+      - name: applicant_resources_type
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the applicant_resources_type taxonomy.
+      - name: applicant_resources_type_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the applicant_resources_type
+          taxonomy.
+      - name: before
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Limit response to posts published before a given ISO8601 compliant date.
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      - name: exclude
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+        description: Ensure result set excludes specific IDs.
+      - name: global_type
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the global_type taxonomy.
+      - name: global_type_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the global_type taxonomy.
+      - name: grant_resources_funding_stage
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the grant_resources_funding_stage
+          taxonomy.
+      - name: grant_resources_funding_stage_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the grant_resources_funding_stage
+          taxonomy.
+      - name: grant_resources_funding_type
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the grant_resources_funding_type
+          taxonomy.
+      - name: grant_resources_funding_type_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the grant_resources_funding_type
+          taxonomy.
+      - name: grant_resources_resource_type
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the grant_resources_resource_type
+          taxonomy.
+      - name: grant_resources_resource_type_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the grant_resources_resource_type
+          taxonomy.
+      - name: grantee_resources_funding_op
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the grantee_resources_funding_op
+          taxonomy.
+      - name: grantee_resources_funding_op_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the grantee_resources_funding_op
+          taxonomy.
+      - name: grantee_resources_project_type
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the grantee_resources_project_type
+          taxonomy.
+      - name: grantee_resources_project_type_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the grantee_resources_project_type
+          taxonomy.
+      - name: grantee_resources_resource_type
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the grantee_resources_resource_type
+          taxonomy.
+      - name: grantee_resources_resource_type_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the grantee_resources_resource_type
+          taxonomy.
+      - name: include
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+          default: []
+        description: Limit result set to specific IDs.
+      - name: investment_priority_topic
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the investment_priority_topic taxonomy.
+      - name: investment_priority_topic_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the investment_priority_topic
+          taxonomy.
+      - name: modified_after
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Limit response to posts modified after a given ISO8601 compliant date.
+      - name: modified_before
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Limit response to posts modified before a given ISO8601 compliant date.
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Offset the result set by a specific number of items.
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+        description: Order sort attribute ascending or descending.
+      - name: orderby
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - author
+          - date
+          - id
+          - include
+          - modified
+          - parent
+          - relevance
+          - slug
+          - include_slugs
+          - title
+          default: date
+        description: Sort collection by post attribute.
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+        description: Current page of the collection.
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 10
+          minimum: 1
+          maximum: 100
+        description: Maximum number of items to be returned in result set.
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limit results to those matching a string.
+      - name: search_columns
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - post_title
+            - post_content
+            - post_excerpt
+          default: []
+        description: Array of column names to be searched.
+      - name: search_semantics
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - exact
+        description: How to interpret the search input.
+      - name: slug
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        description: Limit result set to posts with one or more specific slugs.
+      - name: state_resource_type
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the state_resource_type taxonomy.
+      - name: state_resource_type_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the state_resource_type
+          taxonomy.
+      - name: states_counties
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items with specific terms assigned in the states_counties taxonomy.
+      - name: states_counties_exclude
+        in: query
+        required: false
+        schema:
+          type: object
+        description: Limit result set to items except those with specific terms assigned in the states_counties
+          taxonomy.
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - publish
+            - future
+            - draft
+            - pending
+            - private
+            - trash
+            - auto-draft
+            - inherit
+            - request-pending
+            - request-confirmed
+            - request-failed
+            - request-completed
+            - acf-disabled
+            - dp-rewrite-republish
+            - draft-revision
+            - pending-revision
+            - future-revision
+            - any
+          default: publish
+        description: Limit result set to posts assigned one or more statuses.
+      - name: tax_relation
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - AND
+          - OR
+        description: Limit result set based on relationship between multiple taxonomies.
+      responses:
+        '200':
+          description: Success. JSON body; collection routes also return `X-WP-Total` and `X-WP-TotalPages` headers.
+          headers:
+            X-WP-Total:
+              description: Total number of records matching the query.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available at the current `per_page`.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Bad request — an invalid parameter was supplied. Body is the WordPress REST error envelope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '401':
+          description: Unauthorized — the route requires an authenticated WordPress user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '403':
+          description: Forbidden — the capability is disabled for anonymous callers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '404':
+          description: Not found — no resource exists with the supplied identifier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+  /wp/v2/resource/{id}:
+    get:
+      operationId: getResourceByid
+      summary: GET /wp/v2/resource/{id}
+      description: Read `/wp/v2/resource/{id}` from the WordPress REST API at https://www.arc.gov/wp-json.
+      tags:
+      - Research
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: Unique identifier for the post.
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+        description: Scope under which the request is made; determines fields present in response.
+      - name: excerpt_length
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Override the default excerpt length.
+      - name: password
+        in: query
+        required: false
+        schema:
+          type: string
+        description: The password for the post if it is password protected.
+      responses:
+        '200':
+          description: Success. JSON body; collection routes also return `X-WP-Total` and `X-WP-TotalPages` headers.
+          headers:
+            X-WP-Total:
+              description: Total number of records matching the query.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available at the current `per_page`.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Bad request — an invalid parameter was supplied. Body is the WordPress REST error envelope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '401':
+          description: Unauthorized — the route requires an authenticated WordPress user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '403':
+          description: Forbidden — the capability is disabled for anonymous callers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '404':
+          description: Not found — no resource exists with the supplied identifier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+components:
+  schemas:
+    RestError:
+      type: object
+      description: WordPress REST API error envelope. Observed live on 2026-09-07 (for example `rest_comment_disabled`,
+        `rest_forbidden`, `rest_user_cannot_view`).
+      properties:
+        code:
+          type: string
+          description: Machine-readable error slug, e.g. `rest_forbidden`.
+        message:
+          type: string
+          description: Human-readable message.
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+              description: HTTP status code.
+      required:
+      - code
+      - message

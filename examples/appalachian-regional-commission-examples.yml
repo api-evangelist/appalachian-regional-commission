@@ -1,0 +1,115 @@
+specification: API Commons Examples
+specificationVersion: '0.1'
+provider: Appalachian Regional Commission
+providerId: appalachian-regional-commission
+generated: '2026-09-07'
+method: probed
+source: Every request below was executed anonymously against ARC's live hosts on 2026-09-07.
+description: >-
+  Working, copy-pasteable calls against both ARC surfaces, with the response fact each one returned.
+  ARC publishes no examples of its own, so these were produced by calling the APIs.
+examples:
+  - name: Read the whole contract
+    operationId: getRestIndex
+    request: GET https://www.arc.gov/wp-json/
+    status: 200
+    observed: 596,677 bytes; 371 routes across 16 namespaces, with per-argument schemas.
+    note: The self-describing route index. Start here rather than assuming a path.
+  - name: Count the Appalachian counties
+    operationId: queryFeatureLayer
+    request: >-
+      GET https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services/arc_counties/FeatureServer/0/query?where=1%3D1&returnCountOnly=true&f=json
+    status: 200
+    response: '{"count":423}'
+    note: The statutory definition of Appalachia, as a number.
+  - name: The 13 Appalachian states
+    operationId: queryFeatureLayer
+    request: >-
+      GET https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services/arc_counties/FeatureServer/0/query?where=1%3D1&outFields=STATE&returnDistinctValues=true&returnGeometry=false&f=json
+    status: 200
+    observed: >-
+      Alabama, Georgia, Kentucky, Maryland, Mississippi, New York, North Carolina, Ohio,
+      Pennsylvania, South Carolina, Tennessee, Virginia, West Virginia.
+  - name: County boundaries as GeoJSON
+    operationId: queryFeatureLayer
+    request: >-
+      GET https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services/arc_counties/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson
+    status: 200
+    observed: RFC 7946 FeatureCollection, 423 features, 4.85 MB, no exceededTransferLimit — one request suffices.
+  - name: Read a layer's schema before querying it
+    operationId: getFeatureLayer
+    request: >-
+      GET https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services/arc_county_economic_status_fy2027_tiger/FeatureServer/0?f=json
+    status: 200
+    observed: >-
+      Layer "County Economic Status, FY 2027 (regional)", polygon geometry, fields FIPS, STATE,
+      COUNTY, ARC plus year-suffixed measures CLF2022-2024, EMP2022-2024, UNRATE2022-2024, TPI2024,
+      PCI2024, PCMI2024, PCIUS2024, INVPCMIUS2024 and three-year variants.
+  - name: List the geospatial catalog
+    operationId: listFeatureServices
+    request: GET https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services?f=json
+    status: 200
+    observed: currentVersion 12; 108 FeatureServer entries.
+  - name: Filter reports by research topic
+    operationId: getReport
+    request: >-
+      GET https://www.arc.gov/wp-json/wp/v2/report?research_report_eval_topic=197&per_page=2&_fields=id,title,link,date
+    status: 200
+    observed: >-
+      X-WP-Total 53, X-WP-TotalPages 27 — matching term 197 (Socioeconomic Analysis) own count, which
+      is how you confirm you resolved the right vocabulary.
+  - name: Resolve a taxonomy term before filtering
+    operationId: getResearchReportEvalTopic
+    request: GET https://www.arc.gov/wp-json/wp/v2/research_report_eval_topic?per_page=100&_fields=id,name,slug,count
+    status: 200
+    observed: >-
+      19 terms with counts — Socioeconomic Analysis 197/53, Business and Entrepreneurship 207/31,
+      Transportation 195/30, Infrastructure 213/26, Energy 194/21, Public Health 199/21.
+  - name: Search everything at once
+    operationId: getSearch
+    request: GET https://www.arc.gov/wp-json/wp/v2/search?search=grant&per_page=1
+    status: 200
+    observed: X-WP-Total 243; first hit "Grant Compliance Guide" (type resource).
+  - name: Pagination signals
+    operationId: getReport
+    request: GET https://www.arc.gov/wp-json/wp/v2/report?per_page=2&page=2
+    status: 200
+    observed: >-
+      X-WP-Total 304, X-WP-TotalPages 152, and a Link header carrying rel="prev" and rel="next".
+      cache-control public, max-age=86400.
+  - name: Discover the content model
+    operationId: getTypes
+    request: GET https://www.arc.gov/wp-json/wp/v2/types
+    status: 200
+    observed: >-
+      Custom types map, success_story, resource, staff, report, event, investment_priority, ldd, each
+      with the taxonomies attached to it.
+negative_examples:
+  - name: Author identity is not public
+    request: GET https://www.arc.gov/wp-json/wp/v2/users
+    status: 401
+    response: '{"code":"rest_user_cannot_view","message":"Sorry, you are not allowed to list users.","data":{"status":401}}'
+  - name: Comments are switched off site-wide
+    request: GET https://www.arc.gov/wp-json/wp/v2/comments
+    status: 403
+    response: '{"code":"rest_comment_disabled","message":"Comments are disabled.","data":{"status":403}}'
+  - name: ArcGIS returns errors on HTTP 200
+    request: >-
+      GET https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services/arc_counties/FeatureServer/99?f=json
+    status: 200
+    response: '{"error":{"code":400,"message":"","details":["The requested layer (layerId: 99) was not found."]}}'
+    note: The single most important gotcha on this surface. Never branch on response.ok.
+  - name: No OGC API - Features
+    request: >-
+      GET https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services/arc_counties/OGCFeatureServer/conformance?f=json
+    status: 200
+    response: '{"error":{"code":400,"message":"Invalid URL","details":["Invalid URL"]}}'
+  - name: The Data Report Tool is not machine-reachable
+    request: GET https://data.arc.gov/data
+    status: 403
+    note: >-
+      Cloudflare managed challenge (cf-mitigated: challenge). Returns the interstitial to every
+      non-browser client.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

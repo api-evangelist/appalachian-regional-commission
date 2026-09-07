@@ -1,0 +1,85 @@
+specification: API Commons Authentication
+specificationVersion: '0.1'
+provider: Appalachian Regional Commission
+providerId: appalachian-regional-commission
+generated: '2026-09-07'
+method: probed
+source: >-
+  Live anonymous calls to https://www.arc.gov/wp-json/ and
+  https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services on 2026-09-07, plus the RFC 8414
+  authorization-server metadata served at
+  https://arcgov.maps.arcgis.com/.well-known/oauth-authorization-server.
+description: >-
+  The Appalachian Regional Commission runs no developer program, issues no API keys and operates no
+  signup. Both of its machine-readable surfaces are open to anonymous callers, which is the normal
+  posture for a federal-state commission publishing public-interest data. Authentication exists only
+  on the write and administrative paths, and those are staff-facing.
+summary:
+  public_read: anonymous
+  api_keys_issued: false
+  developer_signup: false
+  oauth_for_third_parties: false
+surfaces:
+  - name: ARC WordPress REST API
+    host: www.arc.gov
+    base: https://www.arc.gov/wp-json
+    anonymous_read: true
+    evidence: >-
+      GET /wp-json/wp/v2/posts, /pages, /media, /report, /map, /resource, /staff, /event,
+      /success_story, /investment_priority, /ldd, /search and every taxonomy route returned HTTP 200
+      with no credentials on 2026-09-07.
+    schemes:
+      - type: none
+        applies_to: the entire public GET surface documented in openapi/
+        note: No securityScheme is declared, because none is required.
+      - type: http
+        scheme: basic
+        applies_to: write methods (POST/PUT/PATCH/DELETE) advertised on the same routes
+        note: >-
+          WordPress authenticates writes with Application Passwords over HTTP Basic. ARC publishes no
+          process for obtaining one; these are staff credentials, not a public integration path. The
+          derived OpenAPI documents therefore describe the GET surface only.
+    gated_routes_observed:
+      - path: /wp/v2/users
+        status: 401
+        code: rest_user_cannot_view
+      - path: /wp/v2/settings
+        status: 401
+        code: rest_forbidden
+      - path: /wp/v2/comments
+        status: 403
+        code: rest_comment_disabled
+        note: Commenting is switched off site-wide, so this is a configuration block rather than an auth wall.
+  - name: ARC Geospatial API (ArcGIS hosted feature services)
+    host: services.arcgis.com
+    base: https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest
+    anonymous_read: true
+    evidence: >-
+      GET /services (108 services), GET /services/arc_counties/FeatureServer,
+      /FeatureServer/0 and /FeatureServer/0/query?returnCountOnly=true (423 features) all returned
+      HTTP 200 with no token on 2026-09-07.
+    schemes:
+      - type: none
+        applies_to: query and describe operations on the 108 public feature services
+      - type: oauth2
+        applies_to: ARC's ArcGIS Online organization (staff and content management)
+        issuer: https://arcgov.maps.arcgis.com
+        authorization_endpoint: https://arcgov.maps.arcgis.com/sharing/rest/oauth2/authorize
+        token_endpoint: https://arcgov.maps.arcgis.com/sharing/rest/oauth2/token
+        grant_types:
+          - authorization_code
+          - implicit
+        pkce: S256
+        metadata_document: well-known/appalachian-regional-commission-oauth-authorization-server.json
+        note: >-
+          Discovered by probe, not by documentation. This is Esri's ArcGIS Online OAuth server scoped
+          to ARC's organization tenant; ARC does not document it or invite third-party clients to it,
+          and no scopes are advertised in the metadata. It is recorded because the document is real
+          and served from ARC's org host, not because ARC offers OAuth to developers.
+not_found:
+  - api key issuance or a developer portal on arc.gov
+  - documented authentication reference page
+  - mutual TLS, openIdConnect or signed-request schemes
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

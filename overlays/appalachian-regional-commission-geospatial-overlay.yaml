@@ -1,0 +1,50 @@
+# method: generated
+# generated: '2026-09-07'
+# API Evangelist enhancements over the derived OpenAPI this overlay extends.
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — ARC Geospatial API (ArcGIS Feature Services)
+  version: 1.0.0
+extends: ../openapi/appalachian-regional-commission-geospatial-api-openapi.yml
+actions:
+- target: $.info
+  description: Record how this document came to exist and who stands behind each claim in it.
+  update:
+    x-enrichment-note: Derived by the API Evangelist enrichment pipeline on 2026-09-07 from a first-party discovery
+      document fetched from an ARC-controlled host. The Appalachian Regional Commission publishes no OpenAPI,
+      no API documentation and no developer program; nothing in this file is an ARC claim about itself.
+    x-enrichment-scope: ARC's 108 public ArcGIS hosted feature services.
+    x-provider-published: false
+    x-artifacts:
+      authentication: authentication/appalachian-regional-commission-authentication.yml
+      conventions: conventions/appalachian-regional-commission-conventions.yml
+      errors: errors/appalachian-regional-commission-problem-types.yml
+      lifecycle: lifecycle/appalachian-regional-commission-lifecycle.yml
+      conformance: conformance/appalachian-regional-commission-conformance.yml
+      data_model: data-model/appalachian-regional-commission-data-model.yml
+      rate_limits: rate-limits/appalachian-regional-commission-rate-limits.yml
+      plans: plans/appalachian-regional-commission-plans-pricing.yml
+      skills: skills/_index.yml
+- target: $.info
+  description: State the runtime posture the derived operations do not carry on their own.
+  update:
+    x-access: anonymous — no key, no token, no signup
+    x-write-surface: none. Read-only for anonymous callers.
+    x-idempotency: na — no anonymous write surface exists
+    x-reversibility: na — no action an agent takes here can need reversing
+    x-rate-limits: none published; no rate-limit headers returned
+- target: $.info
+  description: Flag the two behaviours that most often break naive ArcGIS clients.
+  update:
+    x-error-status-untruthful: Errors are returned with HTTP 200 and an {error:{code,message,details}} body. Clients
+      must inspect the body, not the status line.
+    x-format-required: Omitting the f query parameter returns the HTML services directory, not JSON.
+    x-ogc-api-features: Not enabled on any of the 108 services. /OGCFeatureServer and /WFSServer were probed on
+      2026-09-07 and both miss; f=geojson on /query is the standards bridge ARC offers.
+- target: $.servers
+  description: Name the organization the server path belongs to, so the org id is not read as an opaque token.
+  update:
+  - url: https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest
+    description: ARC hosted feature services. The path segment nkunl3y8FDxPkXDl is the ArcGIS Online organization
+      id of the Appalachian Regional Commission (portal name "Appalachian Regional Commission", urlKey ARCgov),
+      confirmed at https://arcgov.maps.arcgis.com/sharing/rest/portals/self on 2026-09-07.

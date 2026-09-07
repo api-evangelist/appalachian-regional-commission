@@ -1,0 +1,45 @@
+# method: generated
+# generated: '2026-09-07'
+# API Evangelist enhancements over the derived OpenAPI this overlay extends.
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — ARC Research and Data API (WordPress REST wp/v2)
+  version: 1.0.0
+extends: ../openapi/appalachian-regional-commission-research-api-openapi.yml
+actions:
+- target: $.info
+  description: Record how this document came to exist and who stands behind each claim in it.
+  update:
+    x-enrichment-note: Derived by the API Evangelist enrichment pipeline on 2026-09-07 from a first-party discovery
+      document fetched from an ARC-controlled host. The Appalachian Regional Commission publishes no OpenAPI,
+      no API documentation and no developer program; nothing in this file is an ARC claim about itself.
+    x-enrichment-scope: ARC research reports, evaluations, maps and applicant/grantee resources.
+    x-provider-published: false
+    x-artifacts:
+      authentication: authentication/appalachian-regional-commission-authentication.yml
+      conventions: conventions/appalachian-regional-commission-conventions.yml
+      errors: errors/appalachian-regional-commission-problem-types.yml
+      lifecycle: lifecycle/appalachian-regional-commission-lifecycle.yml
+      conformance: conformance/appalachian-regional-commission-conformance.yml
+      data_model: data-model/appalachian-regional-commission-data-model.yml
+      rate_limits: rate-limits/appalachian-regional-commission-rate-limits.yml
+      plans: plans/appalachian-regional-commission-plans-pricing.yml
+      skills: skills/_index.yml
+- target: $.info
+  description: State the runtime posture the derived operations do not carry on their own.
+  update:
+    x-access: anonymous — no key, no token, no signup
+    x-write-surface: none. Read-only for anonymous callers.
+    x-idempotency: na — no anonymous write surface exists
+    x-reversibility: na — no action an agent takes here can need reversing
+    x-rate-limits: none published; no rate-limit headers returned
+- target: $.info
+  description: Record the pagination signals a consumer needs and the walls it will hit.
+  update:
+    x-pagination: page + per_page (max 100); X-WP-Total, X-WP-TotalPages and an RFC 5988 Link header, all CORS-exposed
+    x-caching: 'cache-control: public, max-age=86400; no ETag'
+    x-gated-routes: /wp/v2/users 401 rest_user_cannot_view; /wp/v2/settings 401 rest_forbidden; /wp/v2/comments
+      403 rest_comment_disabled
+    x-route-volatility: ARC's custom post types and taxonomies are plugin configuration. Nothing bumps a version
+      when they change and ARC publishes no changelog — re-read https://www.arc.gov/wp-json/ rather than caching
+      a route list.

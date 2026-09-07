@@ -6,62 +6,240 @@ tags:
   - Appalachia
   - Economic Development
   - Federal-Government
+  - Geospatial
   - Government
   - Infrastructure
+  - Open Data
   - Regional Development
   - Workforce Development
 tags_raw:
   - Appalachia
   - Economic Development
   - Federal Government
+  - Geospatial
   - Government
   - Infrastructure
+  - Open Data
   - Regional Development
   - Workforce Development
 kind: contract
 deliveryModel:
-  model: unknown
+  model: open-access
   open_source: false
   commercial: false
-  callable_host: false
-  label: Delivery model not determined — needs a product licence on record
-  confidence: low
+  callable_host: true
+  label: Open access — anonymous, no key, no signup, no cost
+  confidence: high
   source:
-  - none
-  generated: '2026-08-28'
-  method: derived
+    - probe
+  generated: '2026-09-07'
+  method: probed
 accessModel:
-  pricing: freemium
-  onboarding: unknown
+  pricing: free
+  onboarding: none
   trial: false
-  try_now: false
-  public: false
-  label: Freemium
-  confidence: medium
+  try_now: true
+  public: true
+  label: Free and open
+  confidence: high
   source:
-  - plans
-  generated: '2026-07-22'
-  method: derived
+    - plans
+    - probe
+  generated: '2026-09-07'
+  method: probed
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/appalachian-regional-commission.png
 access: 3rd-Party
 created: '2024-11-21'
-modified: '2026-04-19'
-position: Consuming
+modified: '2026-09-07'
+position: Producing
 description: >-
-  The Appalachian Regional Commission (ARC) is a federal-state partnership that invests
-  in Appalachia's economic future by funding projects that promote economic development,
-  infrastructure improvement, workforce training, and community development across 423
-  counties in 13 states. ARC provides research data, county-level economic reports, and
-  maps via its Data Report Tool at data.arc.gov.
+  The Appalachian Regional Commission (ARC) is a federal-state partnership that invests in
+  Appalachia's economic future by funding projects that promote economic development, infrastructure
+  improvement, workforce training, and community development across 423 counties in 13 states. ARC
+  runs no developer program and publishes no API documentation, but it operates two live,
+  anonymous, machine-readable surfaces: the WordPress REST API behind www.arc.gov, which serves its
+  research reports, maps, resources, investment priorities, local development districts, events and
+  staff as JSON; and 108 public hosted feature services in its own ArcGIS Online organization, which
+  carry the region's boundaries and the annual county economic-status, poverty, income, SNAP,
+  broadband, education and population series. Neither needs a key.
 apis:
+  - aid: appalachian-regional-commission:arc-research-data-api
+    name: ARC Research and Data API
+    description: >-
+      Anonymous read access to the Appalachian Regional Commission's research surface as JSON: 304
+      research reports, evaluations, chartbook chapters and fact sheets; 161 map records covering
+      economic status, poverty, median household income, population change, congressional districts
+      and rural-urban county types; and 71 applicant and grantee resources. Served by the WordPress
+      REST API behind www.arc.gov and filterable by ARC's own topic, fiscal-year and
+      states-and-counties vocabularies.
+    humanURL: https://www.arc.gov/research-and-data/
+    baseURL: https://www.arc.gov/wp-json
+    tags:
+      - Open Data
+      - Regional Data
+      - Reports
+      - Research
+      - Evaluations
+    properties:
+      - type: OpenAPI
+        url: openapi/appalachian-regional-commission-research-api-openapi.yml
+      - type: Overlay
+        url: overlays/appalachian-regional-commission-research-overlay.yaml
+      - type: Documentation
+        url: https://www.arc.gov/research-and-data/
+      - type: APIReference
+        url: https://www.arc.gov/wp-json/
+      - type: DataModel
+        url: data-model/appalachian-regional-commission-data-model.yml
+      - type: ErrorCatalog
+        url: errors/appalachian-regional-commission-problem-types.yml
+      - type: Examples
+        url: examples/appalachian-regional-commission-examples.yml
+  - aid: appalachian-regional-commission:arc-geospatial-api
+    name: ARC Geospatial API
+    description: >-
+      Anonymous query access to the 108 public hosted feature services in the Appalachian Regional
+      Commission's own ArcGIS Online organization (org id nkunl3y8FDxPkXDl, portal
+      arcgov.maps.arcgis.com). This is where ARC's numbers live in machine-readable form: the ARC
+      region boundary, the 423 Appalachian counties keyed on FIPS, the 74 Local Development
+      Districts, congressional districts, rural-urban county types, and the annual county
+      economic-status designations from FY2014 through FY2027 alongside ACS poverty, median
+      household income, SNAP, broadband, education-attainment and population-change series. Returns
+      Esri feature JSON, RFC 7946 GeoJSON or PBF.
+    humanURL: https://arcgov.maps.arcgis.com/
+    baseURL: https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest
+    tags:
+      - Geospatial
+      - GIS
+      - Boundaries
+      - Economic Data
+      - Open Data
+    properties:
+      - type: OpenAPI
+        url: openapi/appalachian-regional-commission-geospatial-api-openapi.yml
+      - type: Overlay
+        url: overlays/appalachian-regional-commission-geospatial-overlay.yaml
+      - type: APIReference
+        url: https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services?f=json
+      - type: Portal
+        url: https://arcgov.maps.arcgis.com/
+      - type: DataModel
+        url: data-model/appalachian-regional-commission-data-model.yml
+      - type: ErrorCatalog
+        url: errors/appalachian-regional-commission-problem-types.yml
+      - type: Examples
+        url: examples/appalachian-regional-commission-examples.yml
+  - aid: appalachian-regional-commission:arc-programs-api
+    name: ARC Programs API
+    description: >-
+      Anonymous read access to the programmatic side of ARC as JSON: the nine ARC investment
+      priorities, the 74 Local Development Districts that deliver ARC investment across the region,
+      17 Investments in Action success stories, 163 events and application deadlines, and 120 staff
+      and state-partner profiles. Served by the WordPress REST API behind www.arc.gov.
+    humanURL: https://www.arc.gov/investment-priorities/
+    baseURL: https://www.arc.gov/wp-json
+    tags:
+      - Grants
+      - Investment Priorities
+      - Local Development Districts
+      - Events
+      - Open Data
+    properties:
+      - type: OpenAPI
+        url: openapi/appalachian-regional-commission-programs-api-openapi.yml
+      - type: Overlay
+        url: overlays/appalachian-regional-commission-programs-overlay.yaml
+      - type: Documentation
+        url: https://www.arc.gov/grants-and-opportunities/
+      - type: APIReference
+        url: https://www.arc.gov/wp-json/
+      - type: DataModel
+        url: data-model/appalachian-regional-commission-data-model.yml
+      - type: ErrorCatalog
+        url: errors/appalachian-regional-commission-problem-types.yml
+  - aid: appalachian-regional-commission:arc-content-api
+    name: ARC Content API
+    description: >-
+      Anonymous read access to the general content surface of www.arc.gov as JSON: 204 newsroom
+      posts, 176 site pages, a 6,293-item media library holding the PDFs behind ARC's reports and
+      infographics, and a site-wide search endpoint that covers every public post type at once.
+    humanURL: https://www.arc.gov/newsroom/
+    baseURL: https://www.arc.gov/wp-json
+    tags:
+      - Content
+      - Newsroom
+      - Media
+      - Search
+      - Open Data
+    properties:
+      - type: OpenAPI
+        url: openapi/appalachian-regional-commission-content-api-openapi.yml
+      - type: Overlay
+        url: overlays/appalachian-regional-commission-content-overlay.yaml
+      - type: APIReference
+        url: https://www.arc.gov/wp-json/
+      - type: DataModel
+        url: data-model/appalachian-regional-commission-data-model.yml
+      - type: ErrorCatalog
+        url: errors/appalachian-regional-commission-problem-types.yml
+  - aid: appalachian-regional-commission:arc-taxonomy-api
+    name: ARC Taxonomy API
+    description: >-
+      Anonymous read access to the 34 controlled vocabularies ARC classifies its content with —
+      states_counties (446 terms), investment_priority_topic (22), tax_year (70), global_type (31),
+      the research, fact-sheet, event, staff and grant-resource vocabularies — plus the
+      /wp/v2/types, /wp/v2/taxonomies and /wp/v2/statuses registries that describe the content model
+      itself. ARC's content has no foreign keys; these terms are the join.
+    humanURL: https://www.arc.gov/research-evaluations-maps-data/
+    baseURL: https://www.arc.gov/wp-json
+    tags:
+      - Taxonomy
+      - Vocabularies
+      - Metadata
+      - Open Data
+      - Regional Data
+    properties:
+      - type: OpenAPI
+        url: openapi/appalachian-regional-commission-taxonomy-api-openapi.yml
+      - type: Overlay
+        url: overlays/appalachian-regional-commission-taxonomy-overlay.yaml
+      - type: APIReference
+        url: https://www.arc.gov/wp-json/wp/v2/taxonomies
+      - type: DataModel
+        url: data-model/appalachian-regional-commission-data-model.yml
+  - aid: appalachian-regional-commission:arc-api-discovery
+    name: ARC API Discovery
+    description: >-
+      The self-describing route index for the arc.gov WordPress REST API — 371 routes across 16
+      namespaces, each with its HTTP methods and full argument schemas, returned as a single 596 KB
+      JSON document. It is the closest thing the Appalachian Regional Commission publishes to a
+      machine-readable contract, and every derived OpenAPI in this record was built from it.
+    humanURL: https://www.arc.gov/
+    baseURL: https://www.arc.gov/wp-json
+    tags:
+      - Discovery
+      - Metadata
+      - Open Data
+    properties:
+      - type: OpenAPI
+        url: openapi/appalachian-regional-commission-discovery-api-openapi.yml
+      - type: Overlay
+        url: overlays/appalachian-regional-commission-discovery-overlay.yaml
+      - type: APIReference
+        url: https://www.arc.gov/wp-json/
+      - type: Conformance
+        url: conformance/appalachian-regional-commission-conformance.yml
   - aid: appalachian-regional-commission:arc-data-reports
     name: ARC Data Report Tool
     description: >-
-      The ARC Data Report Tool provides state- and county-level data for the entire
-      Appalachian Region across six topic areas comparing Appalachian data with national
-      averages. Data covers economic, demographic, and quality-of-life factors including
-      income, poverty, unemployment, education, and health metrics. Reports are available
-      for every Appalachian state and county.
+      The ARC Data Report Tool provides state- and county-level data for the entire Appalachian
+      Region across six topic areas comparing Appalachian data with national averages. Data covers
+      economic, demographic, and quality-of-life factors including income, poverty, unemployment,
+      education, and health metrics. Reports are available for every Appalachian state and county.
+      It is a browser application, not an API: data.arc.gov sits behind a Cloudflare managed
+      challenge and returns HTTP 403 to every non-browser client, so no machine-readable surface
+      could be reached behind it. The same underlying measures are callable on the ARC Geospatial
+      API in this record.
     humanURL: https://data.arc.gov/data
     tags:
       - County Data
@@ -70,21 +248,67 @@ apis:
       - Open Data
       - Regional Data
     properties:
-      - type: Documentation
-        url: https://www.arc.gov/research-and-data/
       - type: Portal
         url: https://data.arc.gov/data
+      - type: Documentation
+        url: https://www.arc.gov/research-and-data/
 common:
-  - type: DomainSecurity
-    url: security/appalachian-regional-commission-domain-security.yml
-  - url: https://www.arc.gov/feed/
-    type: Blog
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/appalachian-regional-commission
+  - type: Website
+    url: https://www.arc.gov/
+  - type: About
+    url: https://www.arc.gov/about-the-appalachian-regional-commission/
   - type: Documentation
     url: https://www.arc.gov/research-and-data/
+  - type: APIReference
+    url: https://www.arc.gov/wp-json/
   - type: Portal
     url: https://data.arc.gov/data
+  - type: Support
+    url: https://www.arc.gov/contact-arc/
+  - type: Blog
+    url: https://www.arc.gov/newsroom/
+  - type: BlogRSS
+    url: https://www.arc.gov/feed/
+  - type: PrivacyPolicy
+    url: https://www.arc.gov/arc-web-and-privacy-policy/
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/appalachian-regional-commission
+  - type: X
+    url: https://x.com/ARCgov
+  - type: Instagram
+    url: https://www.instagram.com/arcgov/
+  - type: YouTube
+    url: https://www.youtube.com/user/appalachianregcomm
+  - type: Authentication
+    url: authentication/appalachian-regional-commission-authentication.yml
+  - type: Conventions
+    url: conventions/appalachian-regional-commission-conventions.yml
+  - type: Conformance
+    url: conformance/appalachian-regional-commission-conformance.yml
+  - type: DataModel
+    url: data-model/appalachian-regional-commission-data-model.yml
+  - type: DomainSecurity
+    url: security/appalachian-regional-commission-domain-security.yml
+  - type: ErrorCatalog
+    url: errors/appalachian-regional-commission-problem-types.yml
+  - type: Examples
+    url: examples/appalachian-regional-commission-examples.yml
+  - type: Lifecycle
+    url: lifecycle/appalachian-regional-commission-lifecycle.yml
+  - type: LLMsTxt
+    url: llms/appalachian-regional-commission-llms.txt
+  - type: Packages
+    url: packages/appalachian-regional-commission-packages.yml
+  - type: Plans
+    url: plans/appalachian-regional-commission-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/appalachian-regional-commission-rate-limits.yml
+  - type: WellKnown
+    url: well-known/appalachian-regional-commission-well-known.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: X-MCPServerCandidate
+    url: mcp/appalachian-regional-commission-mcp.yml
   - type: Features
     data:
       - name: County-Level Data Reports
@@ -97,6 +321,14 @@ common:
         description: Geographic mapping data and visualizations covering the Appalachian Region.
       - name: Grant Program Data
         description: Data on ARC's investment portfolios, grants, and program evaluations.
+      - name: Public Feature Services
+        description: >-
+          108 anonymous ArcGIS hosted feature services carrying region, county and district
+          boundaries plus the annual economic-status and ACS statistical series.
+      - name: Self-Describing Content API
+        description: >-
+          A 371-route WordPress REST index exposing ARC reports, maps, resources, districts, events
+          and staff as JSON with full argument schemas.
   - type: UseCases
     data:
       - name: Economic Research
@@ -107,7 +339,16 @@ common:
         description: Use regional data to inform economic development and infrastructure policy decisions.
       - name: Community Development Planning
         description: Access local data to support community-level economic development planning.
+      - name: Distress Mapping
+        description: >-
+          Join ARC county economic-status designations to other datasets on FIPS to map distressed
+          and at-risk counties across the 13-state region.
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com
+x-enrichment:
+  date: '2026-09-07'
+  status: enriched
+  artifacts_added: 32
+  pass: local-v3
 specificationVersion: '0.23'

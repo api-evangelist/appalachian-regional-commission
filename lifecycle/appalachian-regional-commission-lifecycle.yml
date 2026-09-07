@@ -1,0 +1,77 @@
+specification: API Commons Lifecycle
+specificationVersion: '0.1'
+provider: Appalachian Regional Commission
+providerId: appalachian-regional-commission
+generated: '2026-09-07'
+method: probed
+source: >-
+  Live probes of arc.gov and the ARC ArcGIS Online organization on 2026-09-07, plus the version
+  fields the two surfaces report about themselves.
+description: >-
+  ARC operates no API lifecycle. There is no versioning policy, no deprecation policy, no sunset
+  commitment, no SLA, no status page and no changelog for either machine-readable surface, because
+  neither is managed as a product — one is a CMS side effect, the other a GIS publishing platform.
+  The versions the APIs report are their vendors', not ARC's, and consumers get no notice when ARC
+  changes what is behind them.
+versioning:
+  policy_published: false
+  surfaces:
+    - name: ARC WordPress REST API
+      scheme: namespace-in-path
+      current_version: wp/v2
+      owner_of_version: WordPress core
+      note: >-
+        ARC's custom post types and taxonomies live inside wp/v2 and are added or removed by plugin
+        and theme configuration. Nothing bumps a version when they change. An agent should re-read
+        https://www.arc.gov/wp-json/ rather than cache a route list.
+    - name: ARC Geospatial API
+      scheme: currentVersion reported in every descriptor
+      current_version: '12'
+      owner_of_version: Esri (ArcGIS Online)
+      note: >-
+        ARC's own versioning shows up in service NAMES instead — arcfy2014 through arcfy2025,
+        arc_county_economic_status_fy2027_tiger, arc_acs_2019_* through arc_acs_2023_*. Each fiscal
+        or ACS year is a new service rather than a new version of an existing one, so old years stay
+        callable and nothing is ever formally deprecated.
+deprecation:
+  policy_published: false
+  rfc8594_headers: false
+  evidence: >-
+    No Sunset or Deprecation header was returned by any of the routes probed on 2026-09-07, and no
+    deprecation, retirement or API-change page exists on arc.gov.
+  deprecated_operations: []
+  observed_decay:
+    - detail: >-
+        The COVID-19 Cases in Appalachia web map and its web mapping application are still published
+        as public items in ARC's ArcGIS Online organization. They are historical rather than broken,
+        but nothing in the catalog marks them as retired.
+    - detail: >-
+        Economic-status services exist for FY2014 through FY2025 plus FY2027 alongside ACS series
+        from 2019 to 2023. There is no manifest saying which is current; a consumer has to infer it
+        from the name.
+sla:
+  published: false
+  evidence: No service-level commitment appears anywhere on arc.gov.
+status_page:
+  published: false
+  evidence: >-
+    status.arc.gov does not resolve. arc.statuspage.io resolves to Statuspage's /inactive page —
+    an unclaimed subdomain, not an ARC status page. Probed 2026-09-07.
+  note: >-
+    No StatusPage pointer is emitted for this provider, because there is no status page to point at.
+changelog:
+  published: false
+  evidence: >-
+    No dated API or data changelog exists. https://www.arc.gov/newsroom/ carries press releases and
+    https://www.arc.gov/feed/ is the site RSS, but neither records changes to the data or the routes.
+  note: >-
+    No ChangeLog pointer is emitted. The newsroom feed is already wired as Blog and is not a changelog.
+support:
+  channel: https://www.arc.gov/contact-arc/
+  developer_channel: none
+  note: >-
+    ARC has no developer support path. A consumer of these APIs contacts the same general-purpose
+    web form the public uses, and neither surface is acknowledged as an API anywhere on the site.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

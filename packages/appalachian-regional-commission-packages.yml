@@ -1,0 +1,64 @@
+specification: API Commons Packages
+specificationVersion: '0.1'
+provider: Appalachian Regional Commission
+providerId: appalachian-regional-commission
+generated: '2026-09-07'
+method: searched
+source: >-
+  Registry searches of npm, PyPI, RubyGems and crates.io, plus a GitHub organization and repository
+  search, all run on 2026-09-07.
+description: >-
+  The Appalachian Regional Commission publishes no client libraries and has no code presence at all.
+  There is no ARC GitHub organization, no SDK, no CLI and no first-party package in any registry.
+  Consumers of either ARC surface call it with a plain HTTP client, or with a generic third-party
+  library for the underlying platform.
+official_package_count: 0
+packages: []
+third_party:
+  - name: appalachia
+    registry: npm
+    url: https://www.npmjs.com/package/appalachia
+    version: 0.5.1
+    published: '2021-03-22'
+    official: false
+    author: Geoff Hing
+    license: MIT
+    repository: https://github.com/ghing/appalachia
+    description: >-
+      GeoJSON file of counties in Appalachia, as defined by the Appalachian Regional Commission.
+    note: >-
+      A community redistribution of ARC's county definition, not an ARC package and not a client for
+      either ARC API. Last published 2021-03-22 — more than five years stale against a county
+      definition ARC itself revises, and against the live arc_counties feature service (423 features
+      on 2026-09-07) that supersedes it. Recorded as an abandonment signal about the ecosystem
+      around ARC's data, not as an ARC artifact.
+generic_clients:
+  - note: >-
+      ARC's WordPress surface is reachable with any WordPress REST client (for example @wordpress/api-fetch
+      on npm, or python-wordpress-xmlrpc's REST successors). These are WordPress project or community
+      packages, not ARC's, and none is listed here as an ARC package.
+  - note: >-
+      ARC's geospatial surface is reachable with Esri's own client libraries (@esri/arcgis-rest-request,
+      the arcgis Python API). Those are Esri packages; ARC neither publishes nor endorses a client.
+searched:
+  - registry: npm
+    query: appalachian regional commission
+    result: 1,685 loose text matches; one relevant, third-party (appalachia@0.5.1)
+  - registry: PyPI
+    queries: [arc-gov, appalachia]
+    result: 404 on both
+  - registry: RubyGems
+    query: arc-gov
+    result: 404
+  - registry: crates.io
+    query: appalachian
+    result: no relevant crate
+  - registry: GitHub
+    query: org appalachian-regional-commission
+    result: 404 — no ARC GitHub organization exists
+  - registry: GitHub
+    query: repositories matching "appalachian regional commission api"
+    result: 1 hit, this API Evangelist profile repository
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

@@ -1,0 +1,138 @@
+specification: API Evangelist Well-Known Probe
+specificationVersion: '0.1'
+provider: Appalachian Regional Commission
+providerId: appalachian-regional-commission
+generated: '2026-09-07'
+method: probed
+source: >-
+  Live anonymous HTTPS probes of eight /.well-known/ paths across every host this record knows —
+  the registrable domain and www, the ARC Data Report Tool host, the ArcGIS Online organization
+  portal, and the hosted feature-service host named in the geospatial OpenAPI servers[] block.
+description: >-
+  ARC serves no /.well-known/ documents from arc.gov itself: every path 404s into the WordPress
+  theme's HTML 404 page, and data.arc.gov 302-redirects all of them to https://www.arc.gov/404.aspx.
+  One real document was found — an RFC 8414 OAuth 2.0 Authorization Server Metadata document on
+  ARC's own ArcGIS Online organization host, arcgov.maps.arcgis.com, whose issuer is that same ARC
+  org URL. That host is the ARC tenant of Esri's ArcGIS Online (portal name "Appalachian Regional
+  Commission", urlKey ARCgov, org id nkunl3y8FDxPkXDl); the document is served by Esri's platform
+  on ARC's behalf and governs OAuth against ARC's org, so it is recorded here with that caveat
+  stated rather than presented as something ARC authored.
+hosts:
+  - host: www.arc.gov
+    note: ARC primary site (WordPress). Every path returns the site's HTML 404 page.
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: arc.gov
+    note: Registrable domain, apex.
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: data.arc.gov
+    note: >-
+      ARC Data Report Tool. Sits behind a Cloudflare managed challenge — the document root answers
+      403 with cf-mitigated:challenge to any non-browser client. Every /.well-known/ path 302s to
+      https://www.arc.gov/404.aspx, so none is served.
+    documents:
+      - path: /.well-known/security.txt
+        status: 302
+      - path: /.well-known/openid-configuration
+        status: 302
+      - path: /.well-known/oauth-authorization-server
+        status: 302
+      - path: /.well-known/oauth-protected-resource
+        status: 302
+      - path: /.well-known/api-catalog
+        status: 302
+      - path: /.well-known/ai-plugin.json
+        status: 302
+      - path: /.well-known/agent-card.json
+        status: 302
+      - path: /.well-known/agent.json
+        status: 302
+  - host: services.arcgis.com
+    note: >-
+      Esri multi-tenant host serving ARC's 108 public feature services under the
+      /nkunl3y8FDxPkXDl/ org path. Shared infrastructure, not an ARC-controlled document root;
+      every /.well-known/ path answers 403 "Invalid URL".
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+      - path: /.well-known/openid-configuration
+        status: 403
+      - path: /.well-known/oauth-authorization-server
+        status: 403
+      - path: /.well-known/oauth-protected-resource
+        status: 403
+      - path: /.well-known/api-catalog
+        status: 403
+      - path: /.well-known/ai-plugin.json
+        status: 403
+      - path: /.well-known/agent-card.json
+        status: 403
+      - path: /.well-known/agent.json
+        status: 403
+  - host: arcgov.maps.arcgis.com
+    note: >-
+      ARC's ArcGIS Online organization portal. Serves one real document — RFC 8414 authorization
+      server metadata whose issuer is https://arcgov.maps.arcgis.com.
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        file: appalachian-regional-commission-oauth-authorization-server.json
+        content_type: application/json;charset=iso-8859-1
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+findings:
+  security_txt: absent on every host
+  api_catalog: absent on every host
+  agent_card: >-
+    absent on every host. No A2A agent card was found, so no a2a/ artifact was written and no
+    AgentCard pointer was emitted.
+  oauth: >-
+    One RFC 8414 document, on ARC's ArcGIS Online org host. Authorization code (PKCE S256) and
+    implicit grants; no scopes advertised in the metadata; no dynamic client registration and no
+    client_id metadata document support.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

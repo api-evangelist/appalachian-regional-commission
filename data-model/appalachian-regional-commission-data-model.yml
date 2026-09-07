@@ -1,0 +1,227 @@
+specification: API Commons Data Model
+specificationVersion: '0.1'
+provider: Appalachian Regional Commission
+providerId: appalachian-regional-commission
+generated: '2026-09-07'
+method: derived
+source: >-
+  OPTIONS schema documents returned by https://www.arc.gov/wp-json/wp/v2/<type> and the
+  /wp/v2/types + /wp/v2/taxonomies registries, plus the ArcGIS layer descriptors saved under
+  openapi/_source/. All fetched live on 2026-09-07.
+description: >-
+  ARC's public data model is two disconnected graphs. On www.arc.gov, WordPress custom post types
+  describe the institution — its programs, districts, staff, events and publications — and every
+  one of them is joined to the others through shared taxonomies rather than foreign keys. On
+  ArcGIS, flat feature layers carry the actual regional statistics, joined to each other only by
+  the county FIPS code. Nothing links the two graphs: a report record on arc.gov does not reference
+  the feature service that holds its data, and the feature services carry no back-reference to the
+  report. FIPS and the states_counties taxonomy are the nearest thing to a common key, and they are
+  not interchangeable.
+entities:
+  - name: Report
+    surface: wordpress
+    rest_base: report
+    count_observed: 304
+    description: Research reports, evaluations, chartbook chapters, fact sheets and infographics.
+    fields: [id, date, date_gmt, modified, modified_gmt, slug, status, type, link, title, content, excerpt, featured_media, template, acf]
+    relationships:
+      - has_many: TaxonomyTerm
+        via: global_type
+      - has_many: TaxonomyTerm
+        via: tax_year
+      - has_many: TaxonomyTerm
+        via: research_eval_maps_data_type
+      - has_many: TaxonomyTerm
+        via: fact_sheets_infographics_type
+      - has_many: TaxonomyTerm
+        via: fact_sheets_infographics_topic
+      - has_many: TaxonomyTerm
+        via: research_report_eval_topic
+      - has_many: TaxonomyTerm
+        via: investment_priority_topic
+      - has_many: TaxonomyTerm
+        via: states_counties
+      - has_one: Media
+        via: featured_media
+  - name: Map
+    surface: wordpress
+    rest_base: map
+    count_observed: 161
+    description: Map records for the regional maps ARC publishes — economic status, poverty, income, population, county types, congressional districts.
+    fields: [id, date, modified, slug, status, type, link, title, content, excerpt, template, acf]
+    relationships:
+      - has_many: TaxonomyTerm
+        via: map_topic
+      - has_many: TaxonomyTerm
+        via: global_type
+      - has_many: TaxonomyTerm
+        via: tax_year
+      - has_many: TaxonomyTerm
+        via: research_eval_maps_data_type
+      - has_many: TaxonomyTerm
+        via: states_counties
+    note: >-
+      A Map record is metadata and an embed, not data. The features it renders live in the ARC
+      Geospatial API; the join is editorial and is not expressed as a field.
+  - name: Resource
+    surface: wordpress
+    rest_base: resource
+    count_observed: 71
+    description: Applicant and grantee resources — guides, forms, compliance material, funding-stage aids.
+    relationships:
+      - has_many: TaxonomyTerm
+        via: grant_resources_funding_type
+      - has_many: TaxonomyTerm
+        via: grant_resources_resource_type
+      - has_many: TaxonomyTerm
+        via: grant_resources_funding_stage
+      - has_many: TaxonomyTerm
+        via: applicant_resources_funding_op
+      - has_many: TaxonomyTerm
+        via: applicant_resources_project_type
+      - has_many: TaxonomyTerm
+        via: applicant_resources_type
+      - has_many: TaxonomyTerm
+        via: grantee_resources_funding_op
+      - has_many: TaxonomyTerm
+        via: grantee_resources_project_type
+      - has_many: TaxonomyTerm
+        via: grantee_resources_resource_type
+      - has_many: TaxonomyTerm
+        via: state_resource_type
+      - has_many: TaxonomyTerm
+        via: investment_priority_topic
+      - has_many: TaxonomyTerm
+        via: states_counties
+  - name: LocalDevelopmentDistrict
+    surface: wordpress
+    rest_base: ldd
+    count_observed: 74
+    description: >-
+      The multi-county planning organizations — also called Area Development Districts, Councils of
+      Governments or Regional Planning and Development Commissions — that deliver ARC investment.
+    relationships:
+      - has_many: TaxonomyTerm
+        via: states_counties
+    note: >-
+      The same 74 districts are also published as geometry in the arc_local_development_districts
+      feature service. The two are not linked by any identifier; matching them requires name or
+      spatial reconciliation.
+  - name: InvestmentPriority
+    surface: wordpress
+    rest_base: investment_priority
+    count_observed: 9
+    description: ARC's investment priorities, the top-level framing for every grant program.
+    relationships:
+      - has_many: TaxonomyTerm
+        via: states_counties
+      - referenced_by: [Report, Resource, Event, SuccessStory, Page]
+        via: investment_priority_topic
+        note: >-
+          The join is a taxonomy term, not this post's id. investment_priority_topic carries 22
+          terms while investment_priority carries 9 posts — they are near-parallel vocabularies,
+          not a foreign-key pair, and should not be merged.
+  - name: SuccessStory
+    surface: wordpress
+    rest_base: success_story
+    count_observed: 17
+    description: Investments in Action — funded projects profiled by ARC.
+    relationships:
+      - has_many: TaxonomyTerm
+        via: [global_type, investment_priority_topic, states_counties]
+  - name: Event
+    surface: wordpress
+    rest_base: event
+    count_observed: 163
+    relationships:
+      - has_many: TaxonomyTerm
+        via: [event_type, event_topic, event_host, month, tax_year, investment_priority_topic, states_counties]
+  - name: Staff
+    surface: wordpress
+    rest_base: staff
+    count_observed: 120
+    description: ARC staff profiles and state-partner contacts.
+    relationships:
+      - has_many: TaxonomyTerm
+        via: [staff_type, staff_topic, state_partner_role, states_counties]
+  - name: Post
+    surface: wordpress
+    rest_base: posts
+    count_observed: 204
+    description: ARC newsroom items.
+    relationships:
+      - has_many: TaxonomyTerm
+        via: [category, post_tag, global_type, tax_year, newsroom_topic, office_inspector_general_type, newsroom_types, states_counties, operational_guidance_type]
+  - name: Page
+    surface: wordpress
+    rest_base: pages
+    count_observed: 176
+    relationships:
+      - has_many: TaxonomyTerm
+        via: [investment_priority_topic, states_counties]
+      - belongs_to: Page
+        via: parent
+  - name: Media
+    surface: wordpress
+    rest_base: media
+    count_observed: 6293
+    description: The media library — the PDFs behind ARC's reports, plus images and infographics.
+    relationships:
+      - belongs_to: [Report, Post, Page, Staff, Event, SuccessStory, Resource, InvestmentPriority]
+        via: featured_media
+  - name: TaxonomyTerm
+    surface: wordpress
+    description: >-
+      A term in one of ARC's 34 public vocabularies. The join table of the whole content model.
+    fields: [id, count, description, link, name, slug, taxonomy, parent, meta]
+    key_vocabularies:
+      states_counties: 446 terms — the states and counties of the Appalachian Region
+      tax_year: 70 terms
+      staff_topic: 38 terms
+      global_type: 31 terms
+      investment_priority_topic: 22 terms
+      research_report_eval_topic: 19 terms
+  - name: FeatureService
+    surface: arcgis
+    count_observed: 108
+    description: >-
+      A hosted feature service in ARC's ArcGIS Online organization. Advertises capabilities Query
+      only; hasStaticData true on the layers observed.
+    fields: [name, type, url, serviceDescription, copyrightText, capabilities, maxRecordCount, supportedQueryFormats, layers]
+    relationships:
+      - has_many: FeatureLayer
+        via: layers
+  - name: FeatureLayer
+    surface: arcgis
+    description: A single layer inside a feature service. Every ARC service observed carries exactly one, at index 0.
+    fields: [id, name, type, geometryType, objectIdField, fields, maxRecordCount, supportedQueryFormats, advancedQueryCapabilities]
+    relationships:
+      - has_many: Feature
+        via: /query
+  - name: Feature
+    surface: arcgis
+    description: >-
+      One county, district or boundary polygon with its attributes. The arc_counties layer holds 423
+      of them — the counties of the Appalachian Region — keyed on FIPS.
+    fields_observed: [OBJECTID, FIPS, STATE, COUNTY, ARC, Shape__Area, Shape__Length]
+    join_key: FIPS
+    note: >-
+      FIPS is the only cross-layer key. The economic-status, poverty, income, SNAP, education and
+      population layers all repeat FIPS/STATE/COUNTY/ARC and add year-suffixed measure columns
+      (for example CLF2024, UNRATE2024, PCI2024, PCMIUS2024 on the FY2027 economic-status layer),
+      so joins across years and measures are FIPS joins.
+graph_gaps:
+  - >-
+    No identifier connects a WordPress Map or Report record to the ArcGIS feature service that
+    holds its data. An agent that wants the numbers behind a published ARC map must find the
+    service by name in the services directory.
+  - >-
+    LocalDevelopmentDistrict exists in both graphs (74 posts, and the
+    arc_local_development_districts feature service) with no shared key.
+  - >-
+    investment_priority (9 posts) and investment_priority_topic (22 terms) are separate vocabularies
+    covering overlapping ground.
+render: null
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

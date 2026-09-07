@@ -1,0 +1,145 @@
+specification: API Commons Conventions
+specificationVersion: '0.1'
+provider: Appalachian Regional Commission
+providerId: appalachian-regional-commission
+generated: '2026-09-07'
+method: probed
+source: >-
+  Live requests and response headers captured from https://www.arc.gov/wp-json/ and
+  https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/ on 2026-09-07, plus the WordPress route
+  index at openapi/_source/appalachian-regional-commission-wp-json-root.json.
+description: >-
+  Cross-cutting runtime semantics for ARC's two machine-readable surfaces. ARC publishes no API
+  documentation of its own, so everything here was read off the wire. Both surfaces are read-only
+  for anonymous callers, which decides most of this file: there is nothing to replay, nothing to
+  rehearse and nothing to undo.
+auth_style:
+  summary: Anonymous. No key, no token, no signup on either surface.
+  detail: see authentication/appalachian-regional-commission-authentication.yml
+pagination:
+  - surface: ARC WordPress REST API
+    style: page-number
+    params:
+      page: 1-based page number
+      per_page: page size, maximum 100, default 10
+      offset: alternative absolute offset
+    response_headers:
+      X-WP-Total: total records matching the query
+      X-WP-TotalPages: total pages at the current per_page
+    link_header: >-
+      RFC 5988 Link header carries rel="prev" and rel="next". Observed on 2026-09-07 for
+      /wp/v2/report?per_page=2&page=2 alongside X-WP-Total 304 and X-WP-TotalPages 152.
+    cors: X-WP-Total, X-WP-TotalPages and Link are named in access-control-expose-headers, so a browser can read them.
+  - surface: ARC Geospatial API
+    style: offset-limit
+    params:
+      resultOffset: zero-based offset into the result set
+      resultRecordCount: page size, capped by the layer's maxRecordCount (1000 on every ARC layer)
+    response_fields:
+      properties.exceededTransferLimit: true when more features remain beyond this page
+    note: The layer descriptor advertises supportsPagination true; there is no total-count header, use returnCountOnly=true for the total.
+filtering_and_shaping:
+  - surface: ARC WordPress REST API
+    field_selection: _fields (comma-separated list of top-level properties)
+    embedding: _embed / _embed_links expand linked resources inline
+    search: search parameter on every collection, plus a dedicated /wp/v2/search across all post types
+    ordering: orderby + order (asc/desc)
+    taxonomy_filters: every custom taxonomy is a query parameter on the post types it applies to (e.g. states_counties, investment_priority_topic, tax_year)
+    date_filters: after, before, modified_after, modified_before (ISO 8601)
+  - surface: ARC Geospatial API
+    field_selection: outFields (comma-separated, or * for all)
+    filtering: where (SQL-92), objectIds, and spatial filtering via geometry + geometryType + spatialRel
+    ordering: orderByFields
+    aggregation: outStatistics with groupByFieldsForStatistics (server-side statistics; supportsStatistics true)
+    distinct: returnDistinctValues
+content_negotiation:
+  - surface: ARC WordPress REST API
+    formats:
+      - application/json
+    note: Format is fixed; there is no f= style selector.
+  - surface: ARC Geospatial API
+    formats:
+      - json (Esri feature JSON)
+      - geojson (RFC 7946)
+      - pbf (protocol buffers)
+      - html (human-readable services directory, the DEFAULT when f is omitted)
+    selector: f query parameter
+    note: >-
+      Omitting f returns HTML, not JSON. Machine clients must always send f=json or f=geojson.
+      Verified live on 2026-09-07.
+caching:
+  - surface: ARC WordPress REST API
+    cache_control: 'public, max-age=86400'
+    etag: not returned
+    note: A full day of shared cacheability on read routes.
+  - surface: ARC Geospatial API
+    cache_control: 'public, max-age=30, s-maxage=30'
+    etag: returned (e.g. sd1273_2041793003)
+    note: Conditional requests are practical here; the WordPress surface offers no validator.
+versioning:
+  - surface: ARC WordPress REST API
+    scheme: namespace-in-path
+    current: wp/v2
+    note: >-
+      The version is WordPress core's, not ARC's. ARC has never published a version or deprecation
+      policy for this surface; a plugin change or a WordPress upgrade can add or remove routes with
+      no notice to consumers.
+  - surface: ARC Geospatial API
+    scheme: currentVersion reported in every descriptor
+    current: '12'
+    note: Esri's ArcGIS Online release version, again not ARC's.
+request_tracing:
+  ARC WordPress REST API: none. No request-id header is returned.
+  ARC Geospatial API: >-
+    x-arcgis-trace-id, x-arcgis-correlation-id, x-arcgis-instance and x-arcgis-upstream are returned
+    on every response. These identify Esri infrastructure and are useful for a support conversation
+    with Esri, not with ARC.
+error_envelope:
+  ARC WordPress REST API: >-
+    Non-RFC-9457 JSON object {code, message, data:{status}} returned with the matching HTTP status.
+    See errors/appalachian-regional-commission-problem-types.yml.
+  ARC Geospatial API: >-
+    Esri error envelope {error:{code, message, details[]}} returned with HTTP 200. The status line
+    lies here; clients must inspect the body.
+rate_limit_signaling:
+  headers_returned: none
+  detail: >-
+    Neither surface returns X-RateLimit-*, RateLimit-* or Retry-After, and neither publishes a
+    documented limit. See rate-limits/appalachian-regional-commission-rate-limits.yml.
+idempotency:
+  coverage: na
+  scope: []
+  mechanism: none
+  detail: >-
+    There is no anonymous write surface to protect. The WordPress route index advertises POST, PUT,
+    PATCH and DELETE on the content routes, but those reject unauthenticated callers, and
+    /wp/v2/report answered OPTIONS with `Allow: GET` on 2026-09-07. The ArcGIS feature services
+    advertise `capabilities: Query` only — no create, update or delete is exposed at all. No
+    Idempotency-Key header or equivalent is documented or observed, and none is needed for the
+    surface ARC actually publishes.
+dry_run_mode:
+  supported: na
+  detail: No write surface, so there is nothing to rehearse.
+reversibility:
+  grade: na
+  detail: >-
+    ARC publishes a read-only public API surface. There is no create, update, delete, purchase,
+    send or schedule operation an agent could take that would need taking back, so there is no
+    reversal operation to document and no window to state. This is `na` rather than a zero: the
+    dimension does not apply to a read-only data publisher.
+  write_surfaces: []
+  evidence:
+    - url: https://www.arc.gov/wp-json/wp/v2/report
+      method: OPTIONS
+      observed: 'Allow: GET'
+    - url: https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services/arc_counties/FeatureServer?f=json
+      observed: 'capabilities: Query'
+cross_links:
+  errors: errors/appalachian-regional-commission-problem-types.yml
+  lifecycle: lifecycle/appalachian-regional-commission-lifecycle.yml
+  authentication: authentication/appalachian-regional-commission-authentication.yml
+  rate_limits: rate-limits/appalachian-regional-commission-rate-limits.yml
+  data_model: data-model/appalachian-regional-commission-data-model.yml
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

@@ -1,0 +1,243 @@
+# method: derived
+# x-source-url: https://www.arc.gov/wp-json/
+# generated: '2026-09-07'
+# Derived by the API Evangelist enrichment pipeline from the provider's own live
+# discovery document. The Appalachian Regional Commission publishes no OpenAPI.
+openapi: 3.1.0
+info:
+  title: ARC API Discovery (WordPress REST index)
+  version: wp/v2
+  summary: The route-discovery index for the arc.gov WordPress REST API, plus the oEmbed endpoint.
+  description: '`GET https://www.arc.gov/wp-json/` returns the complete self-describing route index for the Appalachian
+    Regional Commission''s WordPress REST API — 371 routes across 16 namespaces, each with its HTTP methods and
+    full argument schemas. It is the closest thing ARC publishes to a machine-readable contract, and it is the document
+    every other OpenAPI in this repository was derived from. `GET /wp/v2` returns the same index scoped to the core
+    content namespace. The oEmbed endpoint returns embed metadata for any arc.gov URL.
+
+
+    The `wp/v2` namespace at https://www.arc.gov/wp-json/ is readable anonymously — no key, no OAuth, no registration.
+    Write methods are advertised on these same routes but reject anonymous callers (WordPress authenticates writes
+    with Application Passwords over HTTP Basic), so only the GET surface is documented here.
+
+
+    This document was DERIVED mechanically by API Evangelist from the route-discovery document served at https://www.arc.gov/wp-json/
+    on 2026-09-07 — every path, method and query parameter below is taken verbatim from that descriptor, and each
+    collection route was called live to confirm it answers 200 anonymously. The Appalachian Regional Commission
+    does not publish an OpenAPI definition of its own; this is the content API its CMS exposes, not a product API.'
+  contact:
+    name: Appalachian Regional Commission
+    url: https://www.arc.gov/contact-arc/
+  license:
+    name: U.S. Government Work
+    url: https://www.arc.gov/arc-web-and-privacy-policy/
+  x-derived-by: API Evangelist enrichment pipeline
+  x-derived-from: https://www.arc.gov/wp-json/
+  x-derived-on: '2026-09-07'
+  x-provider-published: false
+servers:
+- url: https://www.arc.gov/wp-json
+  description: Production (arc.gov WordPress REST API)
+tags:
+- name: Discovery
+paths:
+  /:
+    get:
+      operationId: getRestIndex
+      summary: GET /
+      description: The full WordPress REST route index for www.arc.gov — 371 routes, 16 namespaces, with argument
+        schemas. Returned 200 and 596,677 bytes on 2026-09-07.
+      tags:
+      - Discovery
+      parameters:
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          default: view
+      responses:
+        '200':
+          description: Success. JSON body; collection routes also return `X-WP-Total` and `X-WP-TotalPages` headers.
+          headers:
+            X-WP-Total:
+              description: Total number of records matching the query.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available at the current `per_page`.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Bad request — an invalid parameter was supplied. Body is the WordPress REST error envelope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '401':
+          description: Unauthorized — the route requires an authenticated WordPress user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '403':
+          description: Forbidden — the capability is disabled for anonymous callers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '404':
+          description: Not found — no resource exists with the supplied identifier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+  /wp/v2:
+    get:
+      operationId: getRoot
+      summary: GET /wp/v2
+      description: The route index scoped to the `wp/v2` core content namespace.
+      tags:
+      - Discovery
+      parameters:
+      - name: context
+        in: query
+        required: false
+        schema:
+          type: string
+          default: view
+      - name: namespace
+        in: query
+        required: false
+        schema:
+          type: string
+          default: wp/v2
+      responses:
+        '200':
+          description: Success. JSON body; collection routes also return `X-WP-Total` and `X-WP-TotalPages` headers.
+          headers:
+            X-WP-Total:
+              description: Total number of records matching the query.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available at the current `per_page`.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Bad request — an invalid parameter was supplied. Body is the WordPress REST error envelope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '401':
+          description: Unauthorized — the route requires an authenticated WordPress user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '403':
+          description: Forbidden — the capability is disabled for anonymous callers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '404':
+          description: Not found — no resource exists with the supplied identifier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+  /oembed/1.0/embed:
+    get:
+      operationId: getOembed10Embed
+      summary: GET /oembed/1.0/embed
+      description: oEmbed metadata for an arc.gov URL.
+      tags:
+      - Discovery
+      parameters:
+      - name: format
+        in: query
+        required: false
+        schema:
+          type: string
+          default: json
+      - name: maxwidth
+        in: query
+        required: false
+        schema:
+          type: string
+          default: 600
+      - name: url
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uri
+        description: The URL of the resource for which to fetch oEmbed data.
+      responses:
+        '200':
+          description: Success. JSON body; collection routes also return `X-WP-Total` and `X-WP-TotalPages` headers.
+          headers:
+            X-WP-Total:
+              description: Total number of records matching the query.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available at the current `per_page`.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Bad request — an invalid parameter was supplied. Body is the WordPress REST error envelope.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '401':
+          description: Unauthorized — the route requires an authenticated WordPress user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '403':
+          description: Forbidden — the capability is disabled for anonymous callers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        '404':
+          description: Not found — no resource exists with the supplied identifier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+components:
+  schemas:
+    RestError:
+      type: object
+      description: WordPress REST API error envelope. Observed live on 2026-09-07 (for example `rest_comment_disabled`,
+        `rest_forbidden`, `rest_user_cannot_view`).
+      properties:
+        code:
+          type: string
+          description: Machine-readable error slug, e.g. `rest_forbidden`.
+        message:
+          type: string
+          description: Human-readable message.
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+              description: HTTP status code.
+      required:
+      - code
+      - message

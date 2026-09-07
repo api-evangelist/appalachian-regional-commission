@@ -1,94 +1,48 @@
 specification: API Commons Rate Limits
 specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: Appalachian Regional Commission
 providerId: appalachian-regional-commission
-created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - Appalachia
-  - Economic Development
-  - Federal Government
-  - Government
-  - Infrastructure
-  - Regional Development
-  - Workforce Development
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Appalachian Regional Commission API surface.
-  Captures per-tier quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold
-  values to be replaced with published provider limits.
+generated: '2026-09-07'
+method: probed
+source: >-
+  Response headers captured live from https://www.arc.gov/wp-json/ and
+  https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/ on 2026-09-07.
+description: >-
+  ARC publishes no rate limits and returns no rate-limit headers on either machine-readable
+  surface. This file replaces a scaffold written by a 2026-05-04 bulk sweep that had invented free,
+  professional and enterprise tiers with per-minute and per-month quotas; none of it was real, and
+  ARC issues no API keys for any of it to attach to.
+limit_count: 0
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  returned: []
+  detail: >-
+    No X-RateLimit-*, no RateLimit-*, no Retry-After was present on any response observed. The
+    WordPress surface returns X-WP-Total, X-WP-TotalPages, Link and cache-control public max-age=86400;
+    the ArcGIS surface returns cache-control public max-age=30 with an ETag and Esri trace headers.
 responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
-limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - ARC Data Report Tool
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - ARC Data Report Tool
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - ARC Data Report Tool
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - ARC Data Report Tool
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - ARC Data Report Tool
+  throttled: unknown
+  detail: No 429 was observed and none is documented. Behaviour under load is unknown.
+limits: []
+practical_ceilings:
+  - surface: ARC WordPress REST API
+    ceiling: per_page maximum 100
+    note: >-
+      Not a rate limit, a page-size cap. Reading all 6,293 media records means 63 requests. The
+      86,400-second cache-control means a well-behaved client should mostly be served from cache.
+  - surface: ARC Geospatial API
+    ceiling: maxRecordCount 1000 per query
+    note: >-
+      Also a page-size cap, enforced per layer. Page with resultOffset/resultRecordCount; watch
+      properties.exceededTransferLimit.
+    reference: >-
+      Capacity here is Esri's, not ARC's — ARC's services run on services.arcgis.com under ArcGIS
+      Online's shared limits, which Esri does not publish per-organization.
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: Undocumented
+    description: >-
+      ARC has published nothing about acceptable use, throttling or quotas for either surface.
+      https://www.arc.gov/robots.txt allows all user agents and points at the sitemap; that is the
+      only usage signal ARC gives. An honest zero, recorded rather than guessed.
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com

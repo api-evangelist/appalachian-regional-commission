@@ -1,0 +1,525 @@
+# method: derived
+# x-source-url: https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services?f=json
+# generated: '2026-09-07'
+# Derived by the API Evangelist enrichment pipeline from the provider's own live
+# discovery document. The Appalachian Regional Commission publishes no OpenAPI.
+openapi: 3.1.0
+info:
+  title: ARC Geospatial API (ArcGIS Feature Services)
+  version: '12'
+  summary: Anonymous query access to the 108 public hosted feature services in the Appalachian Regional Commission's
+    ArcGIS Online organization.
+  description: 'The Appalachian Regional Commission operates an ArcGIS Online organization — portal name "Appalachian
+    Regional Commission", urlKey `ARCgov`, organization id `nkunl3y8FDxPkXDl`, confirmed by https://arcgov.maps.arcgis.com/sharing/rest/portals/self
+    on 2026-09-07 — and publishes 108 hosted feature services from it at https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services.
+    They are public, anonymous and require no key.
+
+
+    This is where ARC''s actual regional data lives in machine-readable form: the ARC region boundary, the 423 Appalachian
+    counties, the 74 Local Development Districts, congressional districts, rural-urban county types, and the annual
+    county economic-status designations (arcfy2014 through arcfy2025 plus the FY2027 distressed-areas series) alongside
+    ACS poverty, median household income, SNAP, broadband, education-attainment and population-change series. The
+    web maps and PDFs at https://www.arc.gov/research-and-data/ are renderings of these services.
+
+
+    Every service observed advertises `capabilities: Query` only — read-only, no editing. Layers support GeoJSON
+    output, server-side statistics, ordering, distinct values and `resultOffset`/`resultRecordCount` paging, with
+    `maxRecordCount` 1000.
+
+
+    This document was DERIVED by API Evangelist from the live services directory and layer descriptors fetched on
+    2026-09-07, and every operation below was called against `arc_counties` to confirm it answers anonymously (`returnCountOnly=true`
+    returned 423). ARC publishes no OpenAPI of its own; the ArcGIS REST interface is Esri''s, and this document
+    records ARC''s instance of it.'
+  contact:
+    name: Appalachian Regional Commission
+    url: https://www.arc.gov/contact-arc/
+  license:
+    name: U.S. Government Work
+    url: https://www.arc.gov/arc-web-and-privacy-policy/
+  x-derived-by: API Evangelist enrichment pipeline
+  x-derived-from: https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services?f=json
+  x-derived-on: '2026-09-07'
+  x-provider-published: false
+  x-arcgis-org-id: nkunl3y8FDxPkXDl
+  x-arcgis-portal: https://arcgov.maps.arcgis.com
+  x-arc-services:
+  - ARC_IPEDS_2017
+  - Economic_Status_in_Appalachia_FY_2026
+  - IPEDS_2021_2022
+  - Income_Gini_Index_2007_2011
+  - Summarize_ANRC_Participates_within_H_P_Counties
+  - Summarize_ANRC_Participates_within_P_P_Counties
+  - USA_Major_Cities_in_Appalachia
+  - arc_acp_participation_rate_2023_02_01
+  - arc_acs_2019_broadband
+  - arc_acs_2019_computer_devices
+  - arc_acs_2019_county_types
+  - arc_acs_2019_education_chg
+  - arc_acs_2019_labor_force
+  - arc_acs_2019_median_hh_income
+  - arc_acs_2019_population_chg
+  - arc_acs_2019_poverty_chg
+  - arc_acs_2019_poverty_rates
+  - arc_acs_2020_SNAP
+  - arc_acs_2020_broadband
+  - arc_acs_2020_computer_devices
+  - arc_acs_2020_education_chg
+  - arc_acs_2020_labor_force
+  - arc_acs_2020_median_hh_income
+  - arc_acs_2020_population
+  - arc_acs_2020_population_chg
+  - arc_acs_2020_poverty_rates
+  - arc_acs_2021_SNAP
+  - arc_acs_2021_broadband
+  - arc_acs_2021_computer_devices
+  - arc_acs_2021_education_chg
+  - arc_acs_2021_labor_force
+  - arc_acs_2021_median_hh_income
+  - arc_acs_2021_population
+  - arc_acs_2021_population_chg
+  - arc_acs_2021_poverty_rates
+  - arc_acs_2022_broadband
+  - arc_acs_2022_broadband_chg
+  - arc_acs_2022_computer_devices
+  - arc_acs_2022_hs_education_chg
+  - arc_acs_2022_labor_force
+  - arc_acs_2022_median_hh_income
+  - arc_acs_2022_poverty_rates
+  - arc_acs_2022_snap
+  - arc_acs_2023_broadband_500k
+  - arc_acs_2023_broadband_chg_500k
+  - arc_acs_2023_broadband_chg_tiger
+  - arc_acs_2023_broadband_tiger
+  - arc_acs_2023_computer_devices_500k
+  - arc_acs_2023_computer_devices_tiger
+  - arc_acs_2023_hs_education_chg_tiger
+  - arc_acs_2023_labor_force_tiger
+  - arc_acs_2023_median_hh_income_tiger
+  - arc_acs_2023_poverty_rates_tiger
+  - arc_acs_2024_broadband_500k
+  - arc_acs_2024_broadband_chg_500k
+  - arc_acs_2024_computer_devices_500k
+  - arc_acs_2024_hs_education_chg_500k
+  - arc_acs_2024_labor_force_500k
+  - arc_acs_2024_median_hh_income_500k
+  - arc_acs_2024_poverty_rates_500k
+  - arc_acs_2024_snap_500k
+  - arc_boundary
+  - arc_boundary_2008
+  - arc_boundary_tiger
+  - arc_congressional_districts_118th
+  - arc_congressional_districts_119th
+  - arc_counties
+  - arc_counties_2008
+  - arc_county_economic_status_fy2027_tiger
+  - arc_distressed_areas_fy2027_tiger
+  - arc_fcc_auction_904_phase_I_cbgs_per_county
+  - arc_fcc_auction_904_phase_I_results
+  - arc_high_poverty_counties_500k
+  - arc_local_development_districts
+  - arc_minority_pop_2018_counties
+  - arc_opportunity_zones_2018
+  - arc_opportunity_zones_2018_2026
+  - arc_persistent_poverty_high_poverty_2020
+  - arc_population_2019_county_points
+  - arc_population_2022
+  - arc_population_2023_tiger
+  - arc_population_2024_500k
+  - arc_population_chg_2022
+  - arc_population_chg_2023_tiger
+  - arc_population_chg_2024_500k
+  - arc_rural_urban_county_types
+  - arc_rural_urban_county_types_2013
+  - arc_subregion_counties
+  - arc_subregions_2009_counties_420
+  - arc_us_states
+  - arc_us_states_bnd_no_coastline_20m
+  - arc_us_states_bnd_no_coastline_500k
+  - arc_us_states_tiger
+  - arc_zip_code_tabulation_areas_2020
+  - arcfy2012
+  - arcfy2013
+  - arcfy2014
+  - arcfy2015
+  - arcfy2016
+  - arcfy2017
+  - arcfy2018
+  - arcfy2019
+  - arcfy2020
+  - arcfy2021
+  - arcfy2022
+  - arcfy2023
+  - arcfy2024
+  - arcfy2025
+servers:
+- url: https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest
+  description: ARC hosted feature services (ArcGIS Online)
+tags:
+- name: Geospatial
+paths:
+  /services:
+    get:
+      operationId: listFeatureServices
+      summary: GET /services
+      description: List every service published by the Appalachian Regional Commission ArcGIS Online organization.
+        Returned 200 with 108 FeatureServer entries on 2026-09-07.
+      tags:
+      - Geospatial
+      parameters:
+      - name: f
+        in: query
+        required: false
+        description: 'Response format. `json` is the Esri feature JSON envelope; `geojson` returns RFC 7946 GeoJSON;
+          `pjson` is pretty-printed JSON; `html` is the human-readable services directory. Verified live 2026-09-07:
+          `f=json` and `f=geojson` both return 200.'
+        schema:
+          type: string
+          enum:
+          - json
+          - geojson
+          - pjson
+          - html
+          - pbf
+          default: html
+      responses:
+        '200':
+          description: The services directory. `services[]` carries `name`, `type` and the absolute `url` of each
+            feature service.
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: 'The ArcGIS REST API answers errors with HTTP 200 and an error envelope in the body — check
+            `error.code`, not the status line. Observed live 2026-09-07: requesting layer 99 of `arc_counties` returned
+            `{"error":{"code":400,"message":"","details":["The requested layer (layerId: 99) was not found."]}}`.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EsriError'
+  /services/{serviceName}/FeatureServer:
+    get:
+      operationId: getFeatureService
+      summary: GET /services/{serviceName}/FeatureServer
+      description: 'Describe one feature service: `serviceDescription`, `copyrightText`, `capabilities`, `maxRecordCount`,
+        `supportedQueryFormats`, `hasStaticData` and the `layers[]` it contains. Every ARC service observed on 2026-09-07
+        advertises `capabilities: Query` only — this is a read-only surface.'
+      tags:
+      - Geospatial
+      parameters:
+      - name: serviceName
+        in: path
+        required: true
+        description: Name of one of the 108 public hosted feature services in the Appalachian Regional Commission
+          ArcGIS Online organization. See `info.x-arc-services` for the full enumeration read from the services
+          directory on 2026-09-07.
+        schema:
+          type: string
+          examples:
+          - arc_counties
+          - arc_boundary
+          - arc_local_development_districts
+          - arc_county_economic_status_fy2027_tiger
+          - arc_acs_2023_poverty_rates_tiger
+      - name: f
+        in: query
+        required: false
+        description: 'Response format. `json` is the Esri feature JSON envelope; `geojson` returns RFC 7946 GeoJSON;
+          `pjson` is pretty-printed JSON; `html` is the human-readable services directory. Verified live 2026-09-07:
+          `f=json` and `f=geojson` both return 200.'
+        schema:
+          type: string
+          enum:
+          - json
+          - geojson
+          - pjson
+          - html
+          - pbf
+          default: html
+      responses:
+        '200':
+          description: The feature service descriptor.
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: 'The ArcGIS REST API answers errors with HTTP 200 and an error envelope in the body — check
+            `error.code`, not the status line. Observed live 2026-09-07: requesting layer 99 of `arc_counties` returned
+            `{"error":{"code":400,"message":"","details":["The requested layer (layerId: 99) was not found."]}}`.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EsriError'
+  /services/{serviceName}/FeatureServer/{layerId}:
+    get:
+      operationId: getFeatureLayer
+      summary: GET /services/{serviceName}/FeatureServer/{layerId}
+      description: 'Describe one feature layer: its `geometryType`, `objectIdField`, the full `fields[]` list with
+        Esri field types, `maxRecordCount`, `supportedQueryFormats` (JSON, geoJSON, PBF) and `advancedQueryCapabilities`.
+        This is the schema document for the layer.'
+      tags:
+      - Geospatial
+      parameters:
+      - name: serviceName
+        in: path
+        required: true
+        description: Name of one of the 108 public hosted feature services in the Appalachian Regional Commission
+          ArcGIS Online organization. See `info.x-arc-services` for the full enumeration read from the services
+          directory on 2026-09-07.
+        schema:
+          type: string
+          examples:
+          - arc_counties
+          - arc_boundary
+          - arc_local_development_districts
+          - arc_county_economic_status_fy2027_tiger
+          - arc_acs_2023_poverty_rates_tiger
+      - name: layerId
+        in: path
+        required: true
+        description: Zero-based layer index within the feature service. Every ARC service observed on 2026-09-07
+          exposes a single layer at index 0.
+        schema:
+          type: integer
+          default: 0
+      - name: f
+        in: query
+        required: false
+        description: 'Response format. `json` is the Esri feature JSON envelope; `geojson` returns RFC 7946 GeoJSON;
+          `pjson` is pretty-printed JSON; `html` is the human-readable services directory. Verified live 2026-09-07:
+          `f=json` and `f=geojson` both return 200.'
+        schema:
+          type: string
+          enum:
+          - json
+          - geojson
+          - pjson
+          - html
+          - pbf
+          default: html
+      responses:
+        '200':
+          description: The feature layer descriptor, including the attribute schema.
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: 'The ArcGIS REST API answers errors with HTTP 200 and an error envelope in the body — check
+            `error.code`, not the status line. Observed live 2026-09-07: requesting layer 99 of `arc_counties` returned
+            `{"error":{"code":400,"message":"","details":["The requested layer (layerId: 99) was not found."]}}`.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EsriError'
+  /services/{serviceName}/FeatureServer/{layerId}/query:
+    get:
+      operationId: queryFeatureLayer
+      summary: GET /services/{serviceName}/FeatureServer/{layerId}/query
+      description: 'Query features from a layer by attribute (`where`), by geometry, or both — returning Esri feature
+        JSON, GeoJSON or PBF. This is the operation that makes ARC''s regional data callable: county boundaries,
+        the ARC region boundary, local development districts, congressional districts, and the county economic-status,
+        poverty, median-household-income, SNAP, education and population series by fiscal and ACS year.'
+      tags:
+      - Geospatial
+      parameters:
+      - name: serviceName
+        in: path
+        required: true
+        description: Name of one of the 108 public hosted feature services in the Appalachian Regional Commission
+          ArcGIS Online organization. See `info.x-arc-services` for the full enumeration read from the services
+          directory on 2026-09-07.
+        schema:
+          type: string
+          examples:
+          - arc_counties
+          - arc_boundary
+          - arc_local_development_districts
+          - arc_county_economic_status_fy2027_tiger
+          - arc_acs_2023_poverty_rates_tiger
+      - name: layerId
+        in: path
+        required: true
+        description: Zero-based layer index within the feature service. Every ARC service observed on 2026-09-07
+          exposes a single layer at index 0.
+        schema:
+          type: integer
+          default: 0
+      - name: where
+        in: query
+        required: false
+        description: SQL-92 WHERE clause applied to the layer's attribute table. Use `1=1` to match every feature.
+        schema:
+          type: string
+          default: 1=1
+      - name: objectIds
+        in: query
+        required: false
+        description: Comma-separated list of OBJECTID values to return.
+        schema:
+          type: string
+      - name: geometry
+        in: query
+        required: false
+        description: Geometry used to spatially filter the query, in the format named by `geometryType`.
+        schema:
+          type: string
+      - name: geometryType
+        in: query
+        required: false
+        description: Type of the `geometry` parameter.
+        schema:
+          type: string
+          enum:
+          - esriGeometryPoint
+          - esriGeometryMultipoint
+          - esriGeometryPolyline
+          - esriGeometryPolygon
+          - esriGeometryEnvelope
+          default: esriGeometryEnvelope
+      - name: spatialRel
+        in: query
+        required: false
+        description: Spatial relationship applied between the input geometry and the layer's features.
+        schema:
+          type: string
+          enum:
+          - esriSpatialRelIntersects
+          - esriSpatialRelContains
+          - esriSpatialRelWithin
+          - esriSpatialRelCrosses
+          - esriSpatialRelTouches
+          - esriSpatialRelOverlaps
+          - esriSpatialRelEnvelopeIntersects
+          default: esriSpatialRelIntersects
+      - name: inSR
+        in: query
+        required: false
+        description: Spatial reference (WKID) of the input geometry.
+        schema:
+          type: string
+      - name: outSR
+        in: query
+        required: false
+        description: Spatial reference (WKID) requested for the returned geometry.
+        schema:
+          type: string
+      - name: outFields
+        in: query
+        required: false
+        description: Comma-separated attribute fields to return, or `*` for all. `arc_counties` layer 0 exposes
+          OBJECTID, FIPS, STATE, COUNTY, ARC, Shape__Area and Shape__Length.
+        schema:
+          type: string
+          default: '*'
+      - name: returnGeometry
+        in: query
+        required: false
+        description: Whether to include feature geometry in the response.
+        schema:
+          type: boolean
+          default: true
+      - name: returnCountOnly
+        in: query
+        required: false
+        description: 'Return only the matching feature count. Verified live 2026-09-07: `arc_counties` layer 0 returns
+          `{"count":423}`, the 423 counties of the Appalachian Region.'
+        schema:
+          type: boolean
+          default: false
+      - name: returnIdsOnly
+        in: query
+        required: false
+        description: Return only the matching OBJECTID values.
+        schema:
+          type: boolean
+          default: false
+      - name: returnDistinctValues
+        in: query
+        required: false
+        description: 'Return distinct values for the requested `outFields`. The layer descriptor reports `supportsDistinct:
+          true`.'
+        schema:
+          type: boolean
+          default: false
+      - name: orderByFields
+        in: query
+        required: false
+        description: 'Comma-separated fields to sort by. The layer descriptor reports `supportsOrderBy: true`.'
+        schema:
+          type: string
+      - name: groupByFieldsForStatistics
+        in: query
+        required: false
+        description: Fields to group by when computing `outStatistics`.
+        schema:
+          type: string
+      - name: outStatistics
+        in: query
+        required: false
+        description: 'JSON array of statistic definitions to compute server-side. The layer descriptor reports `supportsStatistics:
+          true`.'
+        schema:
+          type: string
+      - name: resultOffset
+        in: query
+        required: false
+        description: 'Zero-based offset into the result set. Paging is the only way past `maxRecordCount`; the layer
+          descriptor reports `supportsPagination: true`.'
+        schema:
+          type: integer
+      - name: resultRecordCount
+        in: query
+        required: false
+        description: Maximum features to return in this page. Capped by the service's `maxRecordCount`, which is
+          1000 on every ARC layer observed.
+        schema:
+          type: integer
+          maximum: 1000
+      - name: f
+        in: query
+        required: false
+        description: 'Response format. `json` is the Esri feature JSON envelope; `geojson` returns RFC 7946 GeoJSON;
+          `pjson` is pretty-printed JSON; `html` is the human-readable services directory. Verified live 2026-09-07:
+          `f=json` and `f=geojson` both return 200.'
+        schema:
+          type: string
+          enum:
+          - json
+          - geojson
+          - pjson
+          - html
+          - pbf
+          default: html
+      responses:
+        '200':
+          description: Matching features. `f=json` returns the Esri `features[]` envelope; `f=geojson` returns an
+            RFC 7946 FeatureCollection. A `properties.exceededTransferLimit` of true means more features remain
+            — page with `resultOffset`.
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: 'The ArcGIS REST API answers errors with HTTP 200 and an error envelope in the body — check
+            `error.code`, not the status line. Observed live 2026-09-07: requesting layer 99 of `arc_counties` returned
+            `{"error":{"code":400,"message":"","details":["The requested layer (layerId: 99) was not found."]}}`.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EsriError'
+components:
+  schemas:
+    EsriError:
+      type: object
+      description: ArcGIS REST error envelope, returned with HTTP 200.
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+            details:
+              type: array
+              items:
+                type: string

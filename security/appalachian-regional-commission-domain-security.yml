@@ -1,17 +1,41 @@
-generated: '2026-07-11'
+generated: '2026-09-07'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
+- host: www.arc.gov
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 15 08:23:34 2026 GMT
+  hsts: true
+  hsts_max_age: 31622400
 - host: data.arc.gov
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep 30 02:01:05 2026 GMT
+  cert_expires: Nov 28 02:18:33 2026 GMT
   hsts: true
   hsts_max_age: 31536000
+- host: services.arcgis.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 13 23:59:59 2026 GMT
+  hsts: true
+  hsts_max_age: 63072000
 domains:
 - domain: arc.gov
   dnssec: false
   caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+- domain: arcgis.com
+  dnssec: true
+  caa:
+  - 0 issue "amazontrust.com"
+  - 0 issue "awstrust.com"
+  - 0 issue "digicert.com"
+  - 0 issue "letsencrypt.org"
+  - 0 issuewild "amazon.com"
+  - 0 issuewild "amazonaws.com"
   spf: true
   dmarc: true
   dmarc_policy: reject

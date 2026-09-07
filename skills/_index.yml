@@ -1,0 +1,39 @@
+specification: Agent Skills Index
+specificationVersion: '0.1'
+provider: Appalachian Regional Commission
+providerId: appalachian-regional-commission
+generated: '2026-09-07'
+method: generated
+source: >-
+  Authored by API Evangelist from the OpenAPI documents in openapi/, which were derived from ARC's
+  live WordPress route index and ArcGIS services directory. Every operationId referenced was checked
+  against those documents, and every flow described was executed anonymously on 2026-09-07.
+description: >-
+  Three packaged Agent Skills covering the flows ARC's two public surfaces actually support. ARC
+  publishes no skills, no AGENTS.md and no llms.txt of its own; these are ours, and they are grounded
+  in verified operations rather than in documentation, because ARC has none.
+skills:
+  - name: arc-county-economic-status
+    file: appalachian-regional-commission-county-economic-status.md
+    api: ARC Geospatial API
+    description: >-
+      Economic status designation, unemployment, per-capita income and poverty for any of the 423
+      Appalachian counties, by fiscal year.
+    operations: [listFeatureServices, getFeatureLayer, queryFeatureLayer]
+  - name: arc-find-research
+    file: appalachian-regional-commission-find-research.md
+    api: ARC Research and Data API
+    description: >-
+      Find ARC reports, evaluations, fact sheets, maps and resources by topic, fiscal year, state or
+      county through the taxonomy joins that hold the content model together.
+    operations: [getSearch, getReport, getReportByid, getMap, getResource, getResearchReportEvalTopic, getTaxonomies]
+  - name: arc-region-boundaries
+    file: appalachian-regional-commission-region-boundaries.md
+    api: ARC Geospatial API
+    description: >-
+      Boundary geometry as RFC 7946 GeoJSON — the ARC region, its counties, the 74 Local Development
+      Districts, subregions and congressional districts.
+    operations: [listFeatureServices, getFeatureService, getFeatureLayer, queryFeatureLayer]
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

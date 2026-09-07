@@ -1,0 +1,142 @@
+specification: API Commons Conformance
+specificationVersion: '0.1'
+provider: Appalachian Regional Commission
+providerId: appalachian-regional-commission
+generated: '2026-09-07'
+method: probed
+source: >-
+  Live probes of https://www.arc.gov/wp-json/ and
+  https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services on 2026-09-07, read against the
+  standards each surface could plausibly implement.
+description: >-
+  ARC makes no conformance claim anywhere on its site — there is no developer documentation to make
+  one in. Every entry below was established by calling the API and reading what came back, and the
+  negatives are as deliberate as the positives: for a federal-state commission publishing regional
+  economic data, the standards a consumer would most expect (Project Open Data / DCAT and OGC API -
+  Features) are the two that are absent.
+conformance:
+  - id: rest
+    name: HTTP REST over JSON
+    conforms: true
+    evidence: >-
+      Both surfaces are resource-oriented HTTP APIs returning application/json. Verified across 100
+      derived operations on www.arc.gov/wp-json and four on the ArcGIS services host, 2026-09-07.
+  - id: wordpress-rest-api
+    name: WordPress REST API (wp/v2)
+    conforms: true
+    evidence: >-
+      https://www.arc.gov/wp-json/ returns the core WordPress route-discovery document: 371 routes
+      across 16 namespaces with full per-argument schemas, plus /wp/v2/types, /wp/v2/taxonomies and
+      /wp/v2/statuses registries. Saved verbatim at
+      openapi/_source/appalachian-regional-commission-wp-json-root.json.
+    note: >-
+      This is the closest thing ARC publishes to a machine-readable contract, and it is self-describing.
+  - id: arcgis-rest-feature-service
+    name: Esri ArcGIS REST API — Feature Service
+    conforms: true
+    evidence: >-
+      https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services?f=json returns
+      currentVersion 12 and 108 FeatureServer entries; each service and layer returns the standard
+      Esri descriptor and /query behaves per the Esri specification. Verified 2026-09-07.
+  - id: geojson
+    name: RFC 7946 GeoJSON
+    conforms: true
+    evidence: >-
+      GET /services/arc_counties/FeatureServer/0/query?where=1%3D1&f=geojson returned an RFC 7946
+      FeatureCollection on 2026-09-07. Every ARC layer reports supportedQueryFormats "JSON, geoJSON, PBF".
+  - id: rfc5988-web-linking
+    name: RFC 5988 / RFC 8288 Web Linking
+    conforms: true
+    evidence: >-
+      GET /wp-json/wp/v2/report?per_page=2&page=2 returned a Link header carrying rel="prev" and
+      rel="next" on 2026-09-07.
+  - id: pagination
+    name: Documented pagination
+    conforms: true
+    evidence: >-
+      page/per_page with X-WP-Total and X-WP-TotalPages on the WordPress surface;
+      resultOffset/resultRecordCount with exceededTransferLimit on the ArcGIS surface. Both observed live.
+  - id: cors
+    name: Cross-origin resource sharing
+    conforms: true
+    evidence: >-
+      The WordPress surface names X-WP-Total, X-WP-TotalPages and Link in
+      access-control-expose-headers; the ArcGIS surface returns access-control-allow-origin "*".
+  - id: rfc8414
+    name: RFC 8414 OAuth 2.0 Authorization Server Metadata
+    conforms: partial
+    evidence: >-
+      https://arcgov.maps.arcgis.com/.well-known/oauth-authorization-server returned 200 with a
+      valid RFC 8414 document (issuer, authorization_endpoint, token_endpoint,
+      code_challenge_methods_supported S256) on 2026-09-07. Saved at
+      well-known/appalachian-regional-commission-oauth-authorization-server.json.
+    note: >-
+      Marked partial deliberately. The document is served by Esri's platform for ARC's ArcGIS Online
+      organization tenant, not authored or published by ARC, and ARC does not offer OAuth to
+      third-party developers. arc.gov itself serves no /.well-known/ documents at all.
+  - id: rfc9457
+    name: RFC 9457 Problem Details for HTTP APIs
+    conforms: false
+    evidence: >-
+      Neither surface returns application/problem+json. WordPress returns {code, message,
+      data.status}; ArcGIS returns {error:{code, message, details}} with HTTP 200. Observed live.
+  - id: openapi
+    name: Provider-published OpenAPI
+    conforms: false
+    evidence: >-
+      /openapi.json, /openapi.yaml, /swagger.json and /api-docs all 404 on www.arc.gov, and
+      data.arc.gov answers 403 behind a Cloudflare challenge. The six OpenAPI documents in this
+      repository were derived by API Evangelist from the providers' own discovery documents and are
+      stamped x-provider-published false.
+  - id: openapi-derived
+    name: Machine-readable contract available (derived)
+    conforms: true
+    evidence: >-
+      openapi/ carries six OpenAPI 3.1.0 documents totalling 104 operations, every one derived from
+      a live first-party discovery document (the WordPress route index and the ArcGIS services
+      directory) fetched from an ARC-controlled host on 2026-09-07.
+  - id: ogc-api-features
+    name: OGC API - Features
+    conforms: false
+    evidence: >-
+      /services/arc_counties/OGCFeatureServer and /OGCFeatureServer/conformance both returned the
+      Esri error envelope {"error":{"code":400,"message":"Invalid URL"}}, and
+      /WFSServer?service=WFS&request=GetCapabilities returned the generic services-directory HTML
+      home page rather than a Capabilities document. ARC has not enabled OGC API - Features or WFS
+      on any of its 108 services. Probed 2026-09-07.
+    note: >-
+      This is the one domain standard a regional geospatial data publisher would most be expected to
+      meet, and it is a per-service toggle ARC could switch on. Consumers must speak Esri's REST
+      dialect instead; f=geojson is the closest bridge.
+  - id: project-open-data-dcat
+    name: Project Open Data / DCAT-US public data inventory
+    conforms: false
+    evidence: >-
+      https://www.arc.gov/data.json and https://www.arc.gov/digitalstrategy/data.json both returned
+      404 on 2026-09-07, and https://catalog.data.gov/api/3/action/organization_show?id=appalachian-regional-commission
+      returned "Not Found". ARC publishes no /data.json enterprise data inventory.
+    note: >-
+      Recorded because ARC is a federal entity and this is the federal open-data convention. Not
+      penalised as a market standard — it is noted as the specific, cheap, well-defined thing ARC
+      could publish to make its 108 feature services and 304 reports discoverable as data.
+  - id: asyncapi
+    name: AsyncAPI / event surface
+    conforms: false
+    evidence: No webhook, streaming or event surface was found on any ARC host. Not applicable to a read-only data publisher.
+  - id: security-txt
+    name: RFC 9116 security.txt
+    conforms: false
+    evidence: /.well-known/security.txt returned 404 on www.arc.gov and arc.gov, and 302 to the 404 page on data.arc.gov. Probed 2026-09-07.
+domain_standard:
+  market: government open data and regional geospatial statistics
+  expected:
+    - Project Open Data / DCAT-US (/data.json inventory)
+    - OGC API - Features or WFS on the published geospatial services
+  found: none
+  detail: >-
+    ARC's data is genuinely open and genuinely callable, but it speaks only vendor dialects —
+    WordPress core's and Esri's. A consumer who already speaks DCAT or OGC API - Features still needs
+    a bespoke connector for ARC. Both gaps are configuration, not engineering.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com

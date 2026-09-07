@@ -1,0 +1,110 @@
+specification: API Commons Error Catalog
+specificationVersion: '0.1'
+provider: Appalachian Regional Commission
+providerId: appalachian-regional-commission
+generated: '2026-09-07'
+method: probed
+source: >-
+  Error bodies captured live from https://www.arc.gov/wp-json/ and
+  https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/ on 2026-09-07, plus the 4xx responses
+  declared in the derived OpenAPI documents in openapi/.
+format: proprietary
+rfc9457: false
+description: >-
+  Neither ARC surface uses RFC 9457 problem+json. Both return a vendor envelope, and the two
+  envelopes differ from each other in a way that matters to an agent: WordPress returns the real
+  HTTP status, while ArcGIS returns HTTP 200 and buries the failure in the body.
+envelopes:
+  - surface: ARC WordPress REST API
+    media_type: application/json
+    shape: '{ "code": string, "message": string, "data": { "status": integer } }'
+    status_is_truthful: true
+  - surface: ARC Geospatial API
+    media_type: application/json
+    shape: '{ "error": { "code": integer, "message": string, "details": [string] } }'
+    status_is_truthful: false
+    warning: >-
+      Observed HTTP 200 carrying error.code 400. A client that branches on response.ok alone will
+      treat a failed query as a successful empty one.
+problem_types:
+  - id: rest_user_cannot_view
+    surface: ARC WordPress REST API
+    status: 401
+    title: Cannot list users
+    detail: 'Sorry, you are not allowed to list users.'
+    observed_at: https://www.arc.gov/wp-json/wp/v2/users
+    remediation: >-
+      Author identity is not public on arc.gov. Read author names from the _embedded author object
+      on a post instead, or drop the requirement.
+    method: probed
+  - id: rest_forbidden
+    surface: ARC WordPress REST API
+    status: 401
+    title: Forbidden
+    detail: 'Sorry, you are not allowed to do that.'
+    observed_at: https://www.arc.gov/wp-json/wp/v2/settings
+    remediation: >-
+      Site settings are staff-only. There is no public credential that lifts this; treat the route
+      as absent.
+    method: probed
+  - id: rest_comment_disabled
+    surface: ARC WordPress REST API
+    status: 403
+    title: Comments are disabled
+    detail: 'Comments are disabled.'
+    observed_at: https://www.arc.gov/wp-json/wp/v2/comments
+    remediation: >-
+      Commenting is switched off site-wide. The route is registered but will never return data —
+      this is configuration, not an authorization wall, and no credential changes it.
+    method: probed
+  - id: rest_no_route
+    surface: ARC WordPress REST API
+    status: 404
+    title: No route was found
+    detail: No route was found matching the URL and request method.
+    remediation: >-
+      Re-read the route index at https://www.arc.gov/wp-json/ before assuming a path exists; ARC's
+      custom post types are added and removed by plugin configuration.
+    method: derived
+    derived_from: WordPress REST API core error vocabulary as exposed by the route index
+  - id: rest_invalid_param
+    surface: ARC WordPress REST API
+    status: 400
+    title: Invalid parameter
+    detail: One or more query parameters failed the schema declared for the route.
+    remediation: >-
+      Each route's argument schema (types, enums, minimum, maximum) is in the route index and is
+      reproduced in the derived OpenAPI documents. per_page above 100 is the common cause.
+    method: derived
+    derived_from: openapi/ parameter schemas derived from the route index
+  - id: esri_400_invalid_url
+    surface: ARC Geospatial API
+    status: 200
+    error_code: 400
+    title: Invalid URL
+    detail: 'Invalid URL'
+    observed_at: https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services/arc_counties/OGCFeatureServer?f=json
+    remediation: >-
+      Returned when a capability is requested that the service does not expose. ARC has not enabled
+      OGC API - Features on any of its 108 services, so /OGCFeatureServer is not available; use
+      /FeatureServer/{layerId}/query with f=geojson to get RFC 7946 output instead.
+    method: probed
+  - id: esri_400_layer_not_found
+    surface: ARC Geospatial API
+    status: 200
+    error_code: 400
+    title: Layer not found
+    detail: 'The requested layer (layerId: 99) was not found.'
+    observed_at: https://services.arcgis.com/nkunl3y8FDxPkXDl/arcgis/rest/services/arc_counties/FeatureServer/99?f=json
+    remediation: >-
+      Read layers[] from the FeatureServer descriptor first. Every ARC service observed exposes a
+      single layer at index 0.
+    method: probed
+notes:
+  - >-
+    ARC publishes no error reference page, so no titles or remediation text here come from ARC. The
+    probed entries are the exact bodies the APIs returned; the derived entries are the WordPress
+    core vocabulary these routes are built on, marked as such.
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com
