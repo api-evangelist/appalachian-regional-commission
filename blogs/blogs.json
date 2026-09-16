@@ -2,6 +2,20 @@
   "repo": "appalachian-regional-commission",
   "feeds": [
     {
+      "source": "https://www.arc.gov/newsroom/",
+      "feed_url": "https://www.arc.gov/newsroom/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
+    },
+    {
+      "source": "https://www.arc.gov/contact-arc/",
+      "feed_url": "https://www.arc.gov/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
+    },
+    {
       "source": "https://www.arc.gov/feed/",
       "feed_url": "https://www.arc.gov/feed/",
       "title": "",
@@ -9,7 +23,7 @@
       "method": "feed"
     }
   ],
-  "fetched": "2026-09-06T19:17:18Z",
+  "fetched": "2026-09-13T13:00:00Z",
   "post_count": 12,
   "feed_nature": "vendor-blog",
   "feed_nature_basis": "path_blog",
