@@ -79,6 +79,12 @@ apis:
       - Regional Data
       - Reports
       - Research
+      - Evaluation
+    tags_raw:
+      - Open Data
+      - Regional Data
+      - Reports
+      - Research
       - Evaluations
     properties:
       - type: OpenAPI
