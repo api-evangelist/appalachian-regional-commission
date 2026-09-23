@@ -1,30 +1,9 @@
-# method: derived
-# x-source-url: https://www.arc.gov/wp-json/
-# generated: '2026-09-07'
-# Derived by the API Evangelist enrichment pipeline from the provider's own live
-# discovery document. The Appalachian Regional Commission publishes no OpenAPI.
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ARC Research and Data API (WordPress REST wp/v2)
+  title: ARC and Data API (WordPress REST wp/v2) Research API
   version: wp/v2
   summary: Anonymous read access to ARC research reports and evaluations, regional maps, and applicant/grantee resources.
-  description: 'The research surface of www.arc.gov as custom post types on the `wp/v2` namespace: 304 research
-    reports, evaluations, chartbook chapters and fact sheets; 161 map records covering economic status, poverty,
-    median household income, population change, congressional districts and rural-urban county types; and 71 applicant
-    and grantee resources. These records carry the metadata and file links for the PDFs and interactive maps ARC
-    publishes at /research-and-data/ — the underlying geospatial data itself is served separately from ARC''s ArcGIS
-    Online organization (see the ARC Geospatial API in this same record). Record counts observed live 2026-09-07.
-
-
-    The `wp/v2` namespace at https://www.arc.gov/wp-json/ is readable anonymously — no key, no OAuth, no registration.
-    Write methods are advertised on these same routes but reject anonymous callers (WordPress authenticates writes
-    with Application Passwords over HTTP Basic), so only the GET surface is documented here.
-
-
-    This document was DERIVED mechanically by API Evangelist from the route-discovery document served at https://www.arc.gov/wp-json/
-    on 2026-09-07 — every path, method and query parameter below is taken verbatim from that descriptor, and each
-    collection route was called live to confirm it answers 200 anonymously. The Appalachian Regional Commission
-    does not publish an OpenAPI definition of its own; this is the content API its CMS exposes, not a product API.'
+  description: 'The research surface of www.arc.gov as custom post types on the `wp/v2` namespace: 304 research reports, evaluations, chartbook chapters and fact sheets; 161 map records covering economic status, poverty, median household income, population change, congressional districts and rural-urban county types; and 71 applicant and grantee resources.'
   contact:
     name: Appalachian Regional Commission
     url: https://www.arc.gov/contact-arc/
@@ -88,29 +67,25 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items with specific terms assigned in the fact_sheets_infographics_topic
-          taxonomy.
+        description: Limit result set to items with specific terms assigned in the fact_sheets_infographics_topic taxonomy.
       - name: fact_sheets_infographics_topic_exclude
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the fact_sheets_infographics_topic
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the fact_sheets_infographics_topic taxonomy.
       - name: fact_sheets_infographics_type
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items with specific terms assigned in the fact_sheets_infographics_type
-          taxonomy.
+        description: Limit result set to items with specific terms assigned in the fact_sheets_infographics_type taxonomy.
       - name: fact_sheets_infographics_type_exclude
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the fact_sheets_infographics_type
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the fact_sheets_infographics_type taxonomy.
       - name: global_type
         in: query
         required: false
@@ -143,8 +118,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the investment_priority_topic
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the investment_priority_topic taxonomy.
       - name: modified_after
         in: query
         required: false
@@ -215,15 +189,13 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items with specific terms assigned in the research_eval_maps_data_type
-          taxonomy.
+        description: Limit result set to items with specific terms assigned in the research_eval_maps_data_type taxonomy.
       - name: research_eval_maps_data_type_exclude
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the research_eval_maps_data_type
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the research_eval_maps_data_type taxonomy.
       - name: research_report_eval_topic
         in: query
         required: false
@@ -235,8 +207,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the research_report_eval_topic
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the research_report_eval_topic taxonomy.
       - name: search
         in: query
         required: false
@@ -283,8 +254,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the states_counties
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the states_counties taxonomy.
       - name: status
         in: query
         required: false
@@ -453,8 +423,7 @@ paths:
     get:
       operationId: getMap
       summary: GET /wp/v2/map
-      description: List ARC map records — regional maps of economic status, poverty, income, population and county
-        types. 161 records live on 2026-09-07.
+      description: List ARC map records — regional maps of economic status, poverty, income, population and county types. 161 records live on 2026-09-07.
       tags:
       - Research
       parameters:
@@ -595,15 +564,13 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items with specific terms assigned in the research_eval_maps_data_type
-          taxonomy.
+        description: Limit result set to items with specific terms assigned in the research_eval_maps_data_type taxonomy.
       - name: research_eval_maps_data_type_exclude
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the research_eval_maps_data_type
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the research_eval_maps_data_type taxonomy.
       - name: search
         in: query
         required: false
@@ -650,8 +617,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the states_counties
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the states_counties taxonomy.
       - name: status
         in: query
         required: false
@@ -820,8 +786,7 @@ paths:
     get:
       operationId: getResource
       summary: GET /wp/v2/resource
-      description: List ARC applicant and grantee resources (guides, forms, compliance material). 71 records live
-        on 2026-09-07.
+      description: List ARC applicant and grantee resources (guides, forms, compliance material). 71 records live on 2026-09-07.
       tags:
       - Research
       parameters:
@@ -837,29 +802,25 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items with specific terms assigned in the applicant_resources_funding_op
-          taxonomy.
+        description: Limit result set to items with specific terms assigned in the applicant_resources_funding_op taxonomy.
       - name: applicant_resources_funding_op_exclude
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the applicant_resources_funding_op
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the applicant_resources_funding_op taxonomy.
       - name: applicant_resources_project_type
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items with specific terms assigned in the applicant_resources_project_type
-          taxonomy.
+        description: Limit result set to items with specific terms assigned in the applicant_resources_project_type taxonomy.
       - name: applicant_resources_project_type_exclude
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the applicant_resources_project_type
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the applicant_resources_project_type taxonomy.
       - name: applicant_resources_type
         in: query
         required: false
@@ -871,8 +832,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the applicant_resources_type
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the applicant_resources_type taxonomy.
       - name: before
         in: query
         required: false
@@ -917,85 +877,73 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items with specific terms assigned in the grant_resources_funding_stage
-          taxonomy.
+        description: Limit result set to items with specific terms assigned in the grant_resources_funding_stage taxonomy.
       - name: grant_resources_funding_stage_exclude
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the grant_resources_funding_stage
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the grant_resources_funding_stage taxonomy.
       - name: grant_resources_funding_type
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items with specific terms assigned in the grant_resources_funding_type
-          taxonomy.
+        description: Limit result set to items with specific terms assigned in the grant_resources_funding_type taxonomy.
       - name: grant_resources_funding_type_exclude
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the grant_resources_funding_type
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the grant_resources_funding_type taxonomy.
       - name: grant_resources_resource_type
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items with specific terms assigned in the grant_resources_resource_type
-          taxonomy.
+        description: Limit result set to items with specific terms assigned in the grant_resources_resource_type taxonomy.
       - name: grant_resources_resource_type_exclude
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the grant_resources_resource_type
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the grant_resources_resource_type taxonomy.
       - name: grantee_resources_funding_op
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items with specific terms assigned in the grantee_resources_funding_op
-          taxonomy.
+        description: Limit result set to items with specific terms assigned in the grantee_resources_funding_op taxonomy.
       - name: grantee_resources_funding_op_exclude
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the grantee_resources_funding_op
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the grantee_resources_funding_op taxonomy.
       - name: grantee_resources_project_type
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items with specific terms assigned in the grantee_resources_project_type
-          taxonomy.
+        description: Limit result set to items with specific terms assigned in the grantee_resources_project_type taxonomy.
       - name: grantee_resources_project_type_exclude
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the grantee_resources_project_type
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the grantee_resources_project_type taxonomy.
       - name: grantee_resources_resource_type
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items with specific terms assigned in the grantee_resources_resource_type
-          taxonomy.
+        description: Limit result set to items with specific terms assigned in the grantee_resources_resource_type taxonomy.
       - name: grantee_resources_resource_type_exclude
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the grantee_resources_resource_type
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the grantee_resources_resource_type taxonomy.
       - name: include
         in: query
         required: false
@@ -1016,8 +964,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the investment_priority_topic
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the investment_priority_topic taxonomy.
       - name: modified_after
         in: query
         required: false
@@ -1129,8 +1076,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the state_resource_type
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the state_resource_type taxonomy.
       - name: states_counties
         in: query
         required: false
@@ -1142,8 +1088,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the states_counties
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the states_counties taxonomy.
       - name: status
         in: query
         required: false
@@ -1300,8 +1245,7 @@ components:
   schemas:
     RestError:
       type: object
-      description: WordPress REST API error envelope. Observed live on 2026-09-07 (for example `rest_comment_disabled`,
-        `rest_forbidden`, `rest_user_cannot_view`).
+      description: WordPress REST API error envelope. Observed live on 2026-09-07 (for example `rest_comment_disabled`, `rest_forbidden`, `rest_user_cannot_view`).
       properties:
         code:
           type: string

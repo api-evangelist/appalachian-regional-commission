@@ -1,0 +1,28 @@
+{
+  "provider": "appalachian-regional-commission",
+  "sources": [
+    "appalachian-regional-commission-content-api-openapi.yml",
+    "appalachian-regional-commission-discovery-api-openapi.yml",
+    "appalachian-regional-commission-geospatial-api-openapi.yml",
+    "appalachian-regional-commission-programs-api-openapi.yml",
+    "appalachian-regional-commission-research-api-openapi.yml",
+    "appalachian-regional-commission-taxonomy-api-openapi.yml"
+  ],
+  "outputs": [
+    "appalachian-regional-commission-content-api-openapi.yml",
+    "appalachian-regional-commission-discovery-api-openapi.yml",
+    "appalachian-regional-commission-geospatial-api-openapi.yml",
+    "appalachian-regional-commission-programs-api-openapi.yml",
+    "appalachian-regional-commission-research-api-openapi.yml",
+    "appalachian-regional-commission-taxonomy-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [
+    "no openapi/_original/ archive: this run re-split PREVIOUSLY REFINED output, so any base URL it carries is inherited from an earlier pass rather than read from a document the provider published"
+  ],
+  "notes": [
+    "apis.yml register: already-registered"
+  ],
+  "skipped": []
+}

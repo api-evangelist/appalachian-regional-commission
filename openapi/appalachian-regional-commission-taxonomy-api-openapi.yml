@@ -1,31 +1,9 @@
-# method: derived
-# x-source-url: https://www.arc.gov/wp-json/
-# generated: '2026-09-07'
-# Derived by the API Evangelist enrichment pipeline from the provider's own live
-# discovery document. The Appalachian Regional Commission publishes no OpenAPI.
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ARC Taxonomy API (WordPress REST wp/v2)
+  title: ARC API (WordPress REST wp/v2) Taxonomy API
   version: wp/v2
-  summary: Anonymous read access to the controlled vocabularies ARC classifies its content with, plus the post-type
-    and taxonomy registries.
-  description: 'The Appalachian Regional Commission classifies everything on www.arc.gov with a large set of custom
-    taxonomies, all readable anonymously: `states_counties` (446 terms naming the states and counties of the Appalachian Region), `investment_priority_topic`,
-    `global_type` (31 terms), `tax_year` (70 terms), the research and fact-sheet topic vocabularies, the event type/topic/host
-    vocabularies, the staff and state-partner role vocabularies, and the grant, grantee and applicant resource vocabularies.
-    `/wp/v2/types`, `/wp/v2/taxonomies` and `/wp/v2/statuses` are the registries that describe the content model
-    itself — call those first to discover which taxonomies apply to which post type.
-
-
-    The `wp/v2` namespace at https://www.arc.gov/wp-json/ is readable anonymously — no key, no OAuth, no registration.
-    Write methods are advertised on these same routes but reject anonymous callers (WordPress authenticates writes
-    with Application Passwords over HTTP Basic), so only the GET surface is documented here.
-
-
-    This document was DERIVED mechanically by API Evangelist from the route-discovery document served at https://www.arc.gov/wp-json/
-    on 2026-09-07 — every path, method and query parameter below is taken verbatim from that descriptor, and each
-    collection route was called live to confirm it answers 200 anonymously. The Appalachian Regional Commission
-    does not publish an OpenAPI definition of its own; this is the content API its CMS exposes, not a product API.'
+  summary: Anonymous read access to the controlled vocabularies ARC classifies its content with, plus the post-type and taxonomy registries.
+  description: 'The Appalachian Regional Commission classifies everything on www.arc.gov with a large set of custom taxonomies, all readable anonymously: `states_counties` (446 terms naming the states and counties of the Appalachian Region), `investment_priority_topic`, `global_type` (31 terms), `tax_year` (70 terms), the research and fact-sheet topic vocabularies, the event type/topic/host vocabularies, the staff and state-partner role vocabularies, and the grant, grantee and applicant resource vocabularies.'
   contact:
     name: Appalachian Regional Commission
     url: https://www.arc.gov/contact-arc/
@@ -910,8 +888,7 @@ paths:
     get:
       operationId: getStatesCounties
       summary: GET /wp/v2/states_counties
-      description: List the states-and-counties vocabulary ARC tags content with across the 423-county, 13-state
-        Appalachian Region.
+      description: List the states-and-counties vocabulary ARC tags content with across the 423-county, 13-state Appalachian Region.
       tags:
       - Taxonomy
       parameters:
@@ -7391,8 +7368,7 @@ paths:
     get:
       operationId: getTypes
       summary: GET /wp/v2/types
-      description: List every registered post type with its `rest_base` and the taxonomies attached to it — the
-        machine-readable description of ARC's content model.
+      description: List every registered post type with its `rest_base` and the taxonomies attached to it — the machine-readable description of ARC's content model.
       tags:
       - Taxonomy
       parameters:
@@ -7764,8 +7740,7 @@ components:
   schemas:
     RestError:
       type: object
-      description: WordPress REST API error envelope. Observed live on 2026-09-07 (for example `rest_comment_disabled`,
-        `rest_forbidden`, `rest_user_cannot_view`).
+      description: WordPress REST API error envelope. Observed live on 2026-09-07 (for example `rest_comment_disabled`, `rest_forbidden`, `rest_user_cannot_view`).
       properties:
         code:
           type: string

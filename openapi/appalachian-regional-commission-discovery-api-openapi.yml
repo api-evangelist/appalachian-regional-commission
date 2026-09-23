@@ -1,29 +1,9 @@
-# method: derived
-# x-source-url: https://www.arc.gov/wp-json/
-# generated: '2026-09-07'
-# Derived by the API Evangelist enrichment pipeline from the provider's own live
-# discovery document. The Appalachian Regional Commission publishes no OpenAPI.
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ARC API Discovery (WordPress REST index)
+  title: ARC API (WordPress REST index) Discovery API
   version: wp/v2
   summary: The route-discovery index for the arc.gov WordPress REST API, plus the oEmbed endpoint.
-  description: '`GET https://www.arc.gov/wp-json/` returns the complete self-describing route index for the Appalachian
-    Regional Commission''s WordPress REST API — 371 routes across 16 namespaces, each with its HTTP methods and
-    full argument schemas. It is the closest thing ARC publishes to a machine-readable contract, and it is the document
-    every other OpenAPI in this repository was derived from. `GET /wp/v2` returns the same index scoped to the core
-    content namespace. The oEmbed endpoint returns embed metadata for any arc.gov URL.
-
-
-    The `wp/v2` namespace at https://www.arc.gov/wp-json/ is readable anonymously — no key, no OAuth, no registration.
-    Write methods are advertised on these same routes but reject anonymous callers (WordPress authenticates writes
-    with Application Passwords over HTTP Basic), so only the GET surface is documented here.
-
-
-    This document was DERIVED mechanically by API Evangelist from the route-discovery document served at https://www.arc.gov/wp-json/
-    on 2026-09-07 — every path, method and query parameter below is taken verbatim from that descriptor, and each
-    collection route was called live to confirm it answers 200 anonymously. The Appalachian Regional Commission
-    does not publish an OpenAPI definition of its own; this is the content API its CMS exposes, not a product API.'
+  description: '`GET https://www.arc.gov/wp-json/` returns the complete self-describing route index for the Appalachian Regional Commission''s WordPress REST API — 371 routes across 16 namespaces, each with its HTTP methods and full argument schemas.'
   contact:
     name: Appalachian Regional Commission
     url: https://www.arc.gov/contact-arc/
@@ -44,8 +24,7 @@ paths:
     get:
       operationId: getRestIndex
       summary: GET /
-      description: The full WordPress REST route index for www.arc.gov — 371 routes, 16 namespaces, with argument
-        schemas. Returned 200 and 596,677 bytes on 2026-09-07.
+      description: The full WordPress REST route index for www.arc.gov — 371 routes, 16 namespaces, with argument schemas. Returned 200 and 596,677 bytes on 2026-09-07.
       tags:
       - Discovery
       parameters:
@@ -223,8 +202,7 @@ components:
   schemas:
     RestError:
       type: object
-      description: WordPress REST API error envelope. Observed live on 2026-09-07 (for example `rest_comment_disabled`,
-        `rest_forbidden`, `rest_user_cannot_view`).
+      description: WordPress REST API error envelope. Observed live on 2026-09-07 (for example `rest_comment_disabled`, `rest_forbidden`, `rest_user_cannot_view`).
       properties:
         code:
           type: string

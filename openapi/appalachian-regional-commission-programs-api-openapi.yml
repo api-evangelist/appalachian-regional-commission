@@ -1,30 +1,9 @@
-# method: derived
-# x-source-url: https://www.arc.gov/wp-json/
-# generated: '2026-09-07'
-# Derived by the API Evangelist enrichment pipeline from the provider's own live
-# discovery document. The Appalachian Regional Commission publishes no OpenAPI.
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ARC Programs API (WordPress REST wp/v2)
+  title: ARC API (WordPress REST wp/v2) Programs API
   version: wp/v2
-  summary: Anonymous read access to ARC investment priorities, local development districts, investments in action,
-    events and staff.
-  description: 'The programmatic side of the Appalachian Regional Commission''s WordPress content model, exposed
-    as custom post types on the `wp/v2` namespace: the nine ARC investment priorities, the 74 Local Development
-    Districts (also called Area Development Districts, Councils of Governments or Regional Planning and Development
-    Commissions) that deliver ARC investment across the 423-county region, 17 Investments in Action success stories,
-    163 events, and 120 staff and state-partner profiles. Record counts observed live 2026-09-07.
-
-
-    The `wp/v2` namespace at https://www.arc.gov/wp-json/ is readable anonymously — no key, no OAuth, no registration.
-    Write methods are advertised on these same routes but reject anonymous callers (WordPress authenticates writes
-    with Application Passwords over HTTP Basic), so only the GET surface is documented here.
-
-
-    This document was DERIVED mechanically by API Evangelist from the route-discovery document served at https://www.arc.gov/wp-json/
-    on 2026-09-07 — every path, method and query parameter below is taken verbatim from that descriptor, and each
-    collection route was called live to confirm it answers 200 anonymously. The Appalachian Regional Commission
-    does not publish an OpenAPI definition of its own; this is the content API its CMS exposes, not a product API.'
+  summary: Anonymous read access to ARC investment priorities, local development districts, investments in action, events and staff.
+  description: 'The programmatic side of the Appalachian Regional Commission''s WordPress content model, exposed as custom post types on the `wp/v2` namespace: the nine ARC investment priorities, the 74 Local Development Districts (also called Area Development Districts, Councils of Governments or Regional Planning and Development Commissions) that deliver ARC investment across the 423-county region, 17 Investments in Action success stories, 163 events, and 120 staff and state-partner profiles.'
   contact:
     name: Appalachian Regional Commission
     url: https://www.arc.gov/contact-arc/
@@ -45,9 +24,7 @@ paths:
     get:
       operationId: getInvestmentPriority
       summary: GET /wp/v2/investment_priority
-      description: List ARC investment priorities (Building Appalachian Businesses, Building Appalachia's Workforce
-        Ecosystem, Building Appalachia's Infrastructure, Building Regional Culture and Tourism, Building Community
-        Leaders and Capacity). 9 records live on 2026-09-07.
+      description: List ARC investment priorities (Building Appalachian Businesses, Building Appalachia's Workforce Ecosystem, Building Appalachia's Infrastructure, Building Regional Culture and Tourism, Building Community Leaders and Capacity). 9 records live on 2026-09-07.
       tags:
       - Programs
       parameters:
@@ -205,8 +182,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the states_counties
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the states_counties taxonomy.
       - name: status
         in: query
         required: false
@@ -521,8 +497,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the states_counties
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the states_counties taxonomy.
       - name: status
         in: query
         required: false
@@ -743,8 +718,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the investment_priority_topic
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the investment_priority_topic taxonomy.
       - name: modified_after
         in: query
         required: false
@@ -856,8 +830,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the states_counties
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the states_counties taxonomy.
       - name: status
         in: query
         required: false
@@ -1108,8 +1081,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the investment_priority_topic
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the investment_priority_topic taxonomy.
       - name: modified_after
         in: query
         required: false
@@ -1233,8 +1205,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the states_counties
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the states_counties taxonomy.
       - name: status
         in: query
         required: false
@@ -1585,8 +1556,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the state_partner_role
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the state_partner_role taxonomy.
       - name: states_counties
         in: query
         required: false
@@ -1598,8 +1568,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the states_counties
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the states_counties taxonomy.
       - name: status
         in: query
         required: false
@@ -1756,8 +1725,7 @@ components:
   schemas:
     RestError:
       type: object
-      description: WordPress REST API error envelope. Observed live on 2026-09-07 (for example `rest_comment_disabled`,
-        `rest_forbidden`, `rest_user_cannot_view`).
+      description: WordPress REST API error envelope. Observed live on 2026-09-07 (for example `rest_comment_disabled`, `rest_forbidden`, `rest_user_cannot_view`).
       properties:
         code:
           type: string

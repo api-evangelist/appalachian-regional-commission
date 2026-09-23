@@ -1,28 +1,9 @@
-# method: derived
-# x-source-url: https://www.arc.gov/wp-json/
-# generated: '2026-09-07'
-# Derived by the API Evangelist enrichment pipeline from the provider's own live
-# discovery document. The Appalachian Regional Commission publishes no OpenAPI.
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ARC Content API (WordPress REST wp/v2)
+  title: ARC API (WordPress REST wp/v2) Content API
   version: wp/v2
   summary: Anonymous read access to ARC newsroom posts, site pages, the media library and site-wide search.
-  description: 'The Appalachian Regional Commission publishes www.arc.gov on WordPress, which exposes the WordPress
-    REST API at https://www.arc.gov/wp-json/. This document covers the general content surface: the ARC newsroom
-    (204 posts as of 2026-09-07), site pages (176), the media library (6,293 attachments, largely PDF reports and
-    infographics) and the site-wide search endpoint.
-
-
-    The `wp/v2` namespace at https://www.arc.gov/wp-json/ is readable anonymously — no key, no OAuth, no registration.
-    Write methods are advertised on these same routes but reject anonymous callers (WordPress authenticates writes
-    with Application Passwords over HTTP Basic), so only the GET surface is documented here.
-
-
-    This document was DERIVED mechanically by API Evangelist from the route-discovery document served at https://www.arc.gov/wp-json/
-    on 2026-09-07 — every path, method and query parameter below is taken verbatim from that descriptor, and each
-    collection route was called live to confirm it answers 200 anonymously. The Appalachian Regional Commission
-    does not publish an OpenAPI definition of its own; this is the content API its CMS exposes, not a product API.'
+  description: The Appalachian Regional Commission publishes www.arc.gov on WordPress, which exposes the WordPress REST API at https://www.arc.gov/wp-json/.
   contact:
     name: Appalachian Regional Commission
     url: https://www.arc.gov/contact-arc/
@@ -201,15 +182,13 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items with specific terms assigned in the office_inspector_general_type
-          taxonomy.
+        description: Limit result set to items with specific terms assigned in the office_inspector_general_type taxonomy.
       - name: office_inspector_general_type_exclude
         in: query
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the office_inspector_general_type
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the office_inspector_general_type taxonomy.
       - name: offset
         in: query
         required: false
@@ -227,8 +206,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the operational_guidance_type
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the operational_guidance_type taxonomy.
       - name: order
         in: query
         required: false
@@ -320,8 +298,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the states_counties
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the states_counties taxonomy.
       - name: status
         in: query
         required: false
@@ -511,8 +488,7 @@ paths:
     get:
       operationId: getPages
       summary: GET /wp/v2/pages
-      description: List ARC site pages — programs, investment priorities, about, applicant resources. 176 records
-        live on 2026-09-07.
+      description: List ARC site pages — programs, investment priorities, about, applicant resources. 176 records live on 2026-09-07.
       tags:
       - Content
       parameters:
@@ -588,8 +564,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the investment_priority_topic
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the investment_priority_topic taxonomy.
       - name: menu_order
         in: query
         required: false
@@ -726,8 +701,7 @@ paths:
         required: false
         schema:
           type: object
-        description: Limit result set to items except those with specific terms assigned in the states_counties
-          taxonomy.
+        description: Limit result set to items except those with specific terms assigned in the states_counties taxonomy.
       - name: status
         in: query
         required: false
@@ -887,8 +861,7 @@ paths:
     get:
       operationId: getMedia
       summary: GET /wp/v2/media
-      description: 'List the ARC media library: PDF reports, infographics, maps and images. 6,293 records live on
-        2026-09-07.'
+      description: 'List the ARC media library: PDF reports, infographics, maps and images. 6,293 records live on 2026-09-07.'
       tags:
       - Content
       parameters:
@@ -1377,8 +1350,7 @@ components:
   schemas:
     RestError:
       type: object
-      description: WordPress REST API error envelope. Observed live on 2026-09-07 (for example `rest_comment_disabled`,
-        `rest_forbidden`, `rest_user_cannot_view`).
+      description: WordPress REST API error envelope. Observed live on 2026-09-07 (for example `rest_comment_disabled`, `rest_forbidden`, `rest_user_cannot_view`).
       properties:
         code:
           type: string
