@@ -5,7 +5,7 @@ name: Appalachian Regional Commission
 tags:
   - Appalachia
   - Economic Development
-  - Federal-Government
+  - Federal Government
   - Geospatial
   - Government
   - Infrastructure
@@ -22,6 +22,7 @@ tags_raw:
   - Open Data
   - Regional Development
   - Workforce Development
+  - Federal-Government
 kind: contract
 deliveryModel:
   model: open-access
@@ -63,44 +64,20 @@ description: >-
   carry the region's boundaries and the annual county economic-status, poverty, income, SNAP,
   broadband, education and population series. Neither needs a key.
 apis:
-  - aid: appalachian-regional-commission:arc-research-data-api
-    name: ARC Research and Data API
-    description: >-
-      Anonymous read access to the Appalachian Regional Commission's research surface as JSON: 304
-      research reports, evaluations, chartbook chapters and fact sheets; 161 map records covering
-      economic status, poverty, median household income, population change, congressional districts
-      and rural-urban county types; and 71 applicant and grantee resources. Served by the WordPress
-      REST API behind www.arc.gov and filterable by ARC's own topic, fiscal-year and
-      states-and-counties vocabularies.
-    humanURL: https://www.arc.gov/research-and-data/
+  - aid: appalachian-regional-commission:arc-gov-website-wordpress-rest
+    name: Appalachian Regional Commission Website (WordPress REST)
+    description: 'The public WordPress REST API (wp-json) of the Appalachian Regional Commission website
+      at www.arc.gov: the route index of the site''s content management system, catalogued as one site surface
+      rather than as separate APIs.'
     baseURL: https://www.arc.gov/wp-json
     tags:
-      - Open Data
-      - Regional Data
-      - Reports
-      - Research
-      - Evaluation
-    tags_raw:
-      - Open Data
-      - Regional Data
-      - Reports
-      - Research
-      - Evaluations
+    - WordPress
+    x-surface: platform-generated
     properties:
-      - type: OpenAPI
-        url: openapi/appalachian-regional-commission-research-api-openapi.yml
-      - type: Overlay
-        url: overlays/appalachian-regional-commission-research-overlay.yaml
-      - type: Documentation
-        url: https://www.arc.gov/research-and-data/
-      - type: APIReference
-        url: https://www.arc.gov/wp-json/
-      - type: DataModel
-        url: data-model/appalachian-regional-commission-data-model.yml
-      - type: ErrorCatalog
-        url: errors/appalachian-regional-commission-problem-types.yml
-      - type: Examples
-        url: examples/appalachian-regional-commission-examples.yml
+    - type: Documentation
+      url: https://www.arc.gov/wp-json
+    x-platform: wordpress
+    x-platform-surface: rest
   - aid: appalachian-regional-commission:arc-geospatial-api
     name: ARC Geospatial API
     description: >-
@@ -135,112 +112,6 @@ apis:
         url: errors/appalachian-regional-commission-problem-types.yml
       - type: Examples
         url: examples/appalachian-regional-commission-examples.yml
-  - aid: appalachian-regional-commission:arc-programs-api
-    name: ARC Programs API
-    description: >-
-      Anonymous read access to the programmatic side of ARC as JSON: the nine ARC investment
-      priorities, the 74 Local Development Districts that deliver ARC investment across the region,
-      17 Investments in Action success stories, 163 events and application deadlines, and 120 staff
-      and state-partner profiles. Served by the WordPress REST API behind www.arc.gov.
-    humanURL: https://www.arc.gov/investment-priorities/
-    baseURL: https://www.arc.gov/wp-json
-    tags:
-      - Grants
-      - Investment Priorities
-      - Local Development Districts
-      - Event
-      - Open Data
-    tags_raw:
-      - Grants
-      - Investment Priorities
-      - Local Development Districts
-      - Events
-      - Open Data
-    properties:
-      - type: OpenAPI
-        url: openapi/appalachian-regional-commission-programs-api-openapi.yml
-      - type: Overlay
-        url: overlays/appalachian-regional-commission-programs-overlay.yaml
-      - type: Documentation
-        url: https://www.arc.gov/grants-and-opportunities/
-      - type: APIReference
-        url: https://www.arc.gov/wp-json/
-      - type: DataModel
-        url: data-model/appalachian-regional-commission-data-model.yml
-      - type: ErrorCatalog
-        url: errors/appalachian-regional-commission-problem-types.yml
-  - aid: appalachian-regional-commission:arc-content-api
-    name: ARC Content API
-    description: >-
-      Anonymous read access to the general content surface of www.arc.gov as JSON: 204 newsroom
-      posts, 176 site pages, a 6,293-item media library holding the PDFs behind ARC's reports and
-      infographics, and a site-wide search endpoint that covers every public post type at once.
-    humanURL: https://www.arc.gov/newsroom/
-    baseURL: https://www.arc.gov/wp-json
-    tags:
-      - Content
-      - Newsroom
-      - Media
-      - Search
-      - Open Data
-    properties:
-      - type: OpenAPI
-        url: openapi/appalachian-regional-commission-content-api-openapi.yml
-      - type: Overlay
-        url: overlays/appalachian-regional-commission-content-overlay.yaml
-      - type: APIReference
-        url: https://www.arc.gov/wp-json/
-      - type: DataModel
-        url: data-model/appalachian-regional-commission-data-model.yml
-      - type: ErrorCatalog
-        url: errors/appalachian-regional-commission-problem-types.yml
-  - aid: appalachian-regional-commission:arc-taxonomy-api
-    name: ARC Taxonomy API
-    description: >-
-      Anonymous read access to the 34 controlled vocabularies ARC classifies its content with —
-      states_counties (446 terms), investment_priority_topic (22), tax_year (70), global_type (31),
-      the research, fact-sheet, event, staff and grant-resource vocabularies — plus the
-      /wp/v2/types, /wp/v2/taxonomies and /wp/v2/statuses registries that describe the content model
-      itself. ARC's content has no foreign keys; these terms are the join.
-    humanURL: https://www.arc.gov/research-evaluations-maps-data/
-    baseURL: https://www.arc.gov/wp-json
-    tags:
-      - Taxonomy
-      - Vocabularies
-      - Metadata
-      - Open Data
-      - Regional Data
-    properties:
-      - type: OpenAPI
-        url: openapi/appalachian-regional-commission-taxonomy-api-openapi.yml
-      - type: Overlay
-        url: overlays/appalachian-regional-commission-taxonomy-overlay.yaml
-      - type: APIReference
-        url: https://www.arc.gov/wp-json/wp/v2/taxonomies
-      - type: DataModel
-        url: data-model/appalachian-regional-commission-data-model.yml
-  - aid: appalachian-regional-commission:arc-api-discovery
-    name: ARC API Discovery
-    description: >-
-      The self-describing route index for the arc.gov WordPress REST API — 371 routes across 16
-      namespaces, each with its HTTP methods and full argument schemas, returned as a single 596 KB
-      JSON document. It is the closest thing the Appalachian Regional Commission publishes to a
-      machine-readable contract, and every derived OpenAPI in this record was built from it.
-    humanURL: https://www.arc.gov/
-    baseURL: https://www.arc.gov/wp-json
-    tags:
-      - Discovery
-      - Metadata
-      - Open Data
-    properties:
-      - type: OpenAPI
-        url: openapi/appalachian-regional-commission-discovery-api-openapi.yml
-      - type: Overlay
-        url: overlays/appalachian-regional-commission-discovery-overlay.yaml
-      - type: APIReference
-        url: https://www.arc.gov/wp-json/
-      - type: Conformance
-        url: conformance/appalachian-regional-commission-conformance.yml
   - aid: appalachian-regional-commission:arc-data-reports
     name: ARC Data Report Tool
     description: >-

@@ -1,20 +1,10 @@
 {
   "provider": "appalachian-regional-commission",
   "sources": [
-    "appalachian-regional-commission-content-api-openapi.yml",
-    "appalachian-regional-commission-discovery-api-openapi.yml",
-    "appalachian-regional-commission-geospatial-api-openapi.yml",
-    "appalachian-regional-commission-programs-api-openapi.yml",
-    "appalachian-regional-commission-research-api-openapi.yml",
-    "appalachian-regional-commission-taxonomy-api-openapi.yml"
+    "appalachian-regional-commission-geospatial-api-openapi.yml"
   ],
   "outputs": [
-    "appalachian-regional-commission-content-api-openapi.yml",
-    "appalachian-regional-commission-discovery-api-openapi.yml",
-    "appalachian-regional-commission-geospatial-api-openapi.yml",
-    "appalachian-regional-commission-programs-api-openapi.yml",
-    "appalachian-regional-commission-research-api-openapi.yml",
-    "appalachian-regional-commission-taxonomy-api-openapi.yml"
+    "appalachian-regional-commission-geospatial-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
