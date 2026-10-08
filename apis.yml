@@ -136,6 +136,8 @@ apis:
       - type: Documentation
         url: https://www.arc.gov/research-and-data/
 common:
+  - type: FinOps
+    url: finops/appalachian-regional-commission-finops.yml
   - type: Website
     url: https://www.arc.gov/
   - type: About
